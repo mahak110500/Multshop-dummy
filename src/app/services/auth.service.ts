@@ -1,6 +1,9 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { catchError, throwError } from "rxjs";
+import { Apollo, gql } from 'apollo-angular';
+import { NgForm } from "@angular/forms";
+
 
 export interface AuthResponseData{
     kind:string;
@@ -17,35 +20,84 @@ export interface AuthResponseData{
 })
 
 export class AuthService {
-    constructor(private http: HttpClient){}
 
-    signUp(email:string, password:string ){
-       return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDmKk9u8veuFAy8CaFlnYhZAJJUd3QybCg',
-            {
-                email: email,
-                password: password,
-                returnSecuredToken:true
-            }
-        )
-        .pipe(
-            catchError(this.handleErrors)
-        );
+	authForm: any;
+
+    constructor(private http: HttpClient, private apollo: Apollo){}
+
+    signUp(authForm){
+        // this.authForm = authForm.value;
+        console.log(authForm);
+
+        
+
+        return this.apollo.mutate({
+			mutation: gql`
+			mutation accountRegister($input: AccountRegisterInput!) {
+				accountRegister(input: $input){
+				  user {
+					firstName
+					lastName
+					languageCode
+					email
+				  }
+				}
+			}
+		  `,
+			variables: {
+				"input": {
+					firstName: this.authForm.firstname,
+					lastName: this.authForm.lastname,
+					email: this.authForm.email,
+					password: this.authForm.password,
+					languageCode: "EN",
+					redirectUrl: "http://localhost:4200/product",
+					channel: "default-channel"
+
+				}
+			}
+
+		})
+        // .subscribe(({ data }) => {
+		// 	console.log(data);
+
+		// 	// let users = Object.assign([], this.allUsers);
+		// 	// users.unshift(data["accountRegister"]);
+		// 	// this.allUsers = users;
+
+		// })
+
+
     }
 
 
-    login(email:string, password:string){
-       return this.http.post<AuthResponseData>(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDmKk9u8veuFAy8CaFlnYhZAJJUd3QybCg',
-            {
-                email: email,
-                password: password,
-                returnSecuredToken:true
-            }
-        )
-        .pipe(
-            catchError(this.handleErrors)
-        );
-    }
+    // signUp(email:string, password:string ){
+    //    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDmKk9u8veuFAy8CaFlnYhZAJJUd3QybCg',
+    //         {
+    //             email: email,
+    //             password: password,
+    //             returnSecuredToken:true
+    //         }
+    //     )
+    //     .pipe(
+    //         catchError(this.handleErrors)
+    //     );
+    // }
+
+
+    // login(email:string, password:string){
+    //    return this.http.post<AuthResponseData>(
+    //         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDmKk9u8veuFAy8CaFlnYhZAJJUd3QybCg',
+    //         {
+    //             email: email,
+    //             password: password,
+    //             returnSecuredToken:true
+    //         }
+    //     )
+    //     .pipe(
+    //         catchError(this.handleErrors)
+    //     );
+    // }
 
 
     private handleErrors(errorRes:HttpErrorResponse){

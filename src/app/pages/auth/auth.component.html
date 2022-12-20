@@ -1,10 +1,11 @@
-<div class="row">
-    <div class="col-xs-12 col-md-6 col-md-offset-3">
+<div class="container">
 
-        <!-- LOGIN FORM -->
-        <div class="row" *ngIf="isLoginMode">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
-               
+
+    <!-- LOGIN FORM -->
+    <div class="row" *ngIf="isLoginMode">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+            <form #loginForm="ngForm" (ngSubmit)="onSubmitLogin(loginForm)">
+
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input 
@@ -30,16 +31,19 @@
                     >
                 </div>
                 <div>
-                    <button class="btn btn-primary" type="submit" [disabled]="!authForm.valid" (click)="onSubmit(authForm)">
+                    <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid" >
                         {{isLoginMode ? 'Login': 'Sign Up'}}
                     </button> |
                     <button class="btn btn-primary" (click)="onSwitchMode()" type="button">Switch to {{ isLoginMode ? 'Sign Up':'Login'}}</button>
                 </div>
             </form>
         </div>
+    </div>
 
-       <!-- SIGNUP FORM -->
-        <div class="row" *ngIf="!isLoginMode">
+
+
+    <div class="row" *ngIf="!isLoginMode">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
             <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
                 <div class="form-group">
                     <label for="firstname">Firstname</label>
@@ -94,9 +98,11 @@
                     <button class="btn btn-primary" (click)="onSwitchMode()" type="button">Switch to {{ isLoginMode ? 'Sign Up':'Login'}}</button>
                 </div>
             </form>
+            
         </div>
-
-        
-       
     </div>
+
+
+
+
 </div>

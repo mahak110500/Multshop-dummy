@@ -17,8 +17,10 @@ export class AuthComponent implements OnInit {
 	isLoginMode = true;
 
 	allUsers: User[] = [];
+	allLoginUsers:any = [];
 
 	authForm: any = {}
+	loginForm: any = {}
 
 	constructor(private authService: AuthService, private apollo: Apollo) { }
 
@@ -29,45 +31,97 @@ export class AuthComponent implements OnInit {
 		this.isLoginMode = !this.isLoginMode;
 	}
 
-	onSubmit(authForm: NgForm) {
-		this.authForm = authForm.value;
-		console.log(this.authForm.email + '  ' + this.authForm.password+ '  ' +this.authForm.firstname + '  ' +this.authForm.lastname);
+	onSubmit() {
+		
+		this.authService.signUp(this.authForm).subscribe(res => {
+			console.log(res);
+			
+		})
+		
+		// this.authForm = authForm.value;
+		// console.log(this.authForm.email + '  ' + this.authForm.password+ '  ' +this.authForm.firstname + '  ' +this.authForm.lastname);
+
+
+		// this.apollo.mutate({
+		// 	mutation: gql`
+		// 	mutation accountRegister($input: AccountRegisterInput!) {
+		// 		accountRegister(input: $input){
+		// 		  user {
+		// 			firstName
+		// 			lastName
+		// 			languageCode
+		// 			email
+		// 		  }
+		// 		}
+		// 	}
+		//   `,
+		// 	variables: {
+		// 		"input": {
+		// 			firstName: this.authForm.firstname,
+		// 			lastName: this.authForm.lastname,
+		// 			email: this.authForm.email,
+		// 			password: this.authForm.password,
+		// 			languageCode: "EN",
+		// 			redirectUrl: "http://localhost:4200/product",
+		// 			channel: "default-channel"
+
+		// 		}
+		// 	}
+
+		// })
+		// .subscribe(({ data }) => {
+		// 	console.log(data);
+
+		// 	let users = Object.assign([], this.allUsers);
+		// 	users.unshift(data["accountRegister"]);
+		// 	this.allUsers = users;
+
+		// })
+	
+	}
+
+	onSubmitLogin(loginForm: NgForm, email:string, password:string){
+		this.loginForm = loginForm.value;
+		// console.log(this.loginForm);
+		console.log(this.loginForm.email + '  ' + this.loginForm.password);
+
 
 
 		this.apollo.mutate({
 			mutation: gql`
-			mutation accountRegister($input: AccountRegisterInput!) {
-				accountRegister(input: $input){
+			mutation tokenCreate($email: String!, $password: String!){
+				tokenCreate(email: $email, password: $password) {
+				  token
+				  refreshToken
+				  csrfToken
 				  user {
-					firstName
-					lastName
-					languageCode
 					email
 				  }
+				  errors {
+					field
+					message
+				  }
 				}
-			}
+			  }
+			  
 		  `,
 			variables: {
 				"input": {
-					firstName: this.authForm.firstname,
-					lastName: this.authForm.lastname,
-					email: this.authForm.email,
-					password: this.authForm.password,
-					languageCode: "EN",
-					redirectUrl: "http://localhost:4200/product",
-					channel: "default-channel"
-
+					email: this.loginForm.email,
+					password: this.loginForm.password,
 				}
 			}
 
 		})
 		.subscribe(({ data }) => {
 			console.log(data);
+
 		})
-	
+
+			
 	}
 
-	
+
 
 
 
