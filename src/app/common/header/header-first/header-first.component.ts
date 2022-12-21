@@ -11,17 +11,21 @@ export class HeaderFirstComponent implements OnInit {
 	isLoginMode = true;
 
   formName;
+  method;
+  
 
 
   constructor(private activatedRoute: ActivatedRoute, private route:Router) { }
 
   ngOnInit(): void {
-    this.formName = this.activatedRoute.snapshot.paramMap.get('name');
+    // this.formName = this.activatedRoute.snapshot.paramMap.get('name');
+
+    // this.formName = this.activatedRoute.paramMap.subscribe((params) => {
+    //   console.log(params);
+    //   this.method = params.get('name');
+      
+    // })
+
   }
-
-
-  // onSwitchMode() {
-	// 	this.isLoginMode = !this.isLoginMode;
-	// }
 
 }

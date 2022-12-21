@@ -42,7 +42,7 @@ const routes: Routes = [
     component: ContactComponent
   },
   {
-    path: 'auth/:name/:login/:signup',
+    path: 'auth/:name',
     component: AuthComponent
   }
 

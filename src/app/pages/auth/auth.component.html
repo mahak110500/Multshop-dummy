@@ -2,7 +2,7 @@
 
 
     <!-- LOGIN FORM -->
-    <div class="row" *ngIf="isLoginMode">
+    <div class="row" *ngIf="isLoginMode"  >
         <div class="col-xs-12 col-md-6 col-md-offset-3">
             <form #loginForm="ngForm" (ngSubmit)="onSubmitLogin(loginForm)">
 
@@ -18,7 +18,7 @@
                 <div>
                     <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">
                         Login
-                    </button> |
+                    </button> 
                    
                 </div>
             </form>
@@ -27,7 +27,7 @@
 
 
     <!-- SIGNUP FORM -->
-    <div class="row" *ngIf="!isLoginMode">
+    <div class="row"  name="signup" *ngIf="!isLoginMode">
         <div class="col-xs-12 col-md-6 col-md-offset-3">
             <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
                 <div class="form-group">
@@ -64,7 +64,7 @@
                 <div>
                     <button class="btn btn-primary" type="submit" [disabled]="!authForm.valid">
                        Sign Up
-                    </button> |
+                    </button> 
                   
                 </div>
             </form>

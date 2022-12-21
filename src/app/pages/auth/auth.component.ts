@@ -5,7 +5,7 @@ import { User } from 'src/app/models/user.model';
 import { AutheService } from 'src/app/services/au-th.service';
 import { AuthResponseData, AuthService } from 'src/app/services/auth.service';
 import { Apollo, gql } from 'apollo-angular';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 export class AuthComponent implements OnInit {
 
 	isLoginMode = true;
+ 
 
 	allUsers:any;
 	allLoginUsers:any ;
@@ -23,14 +24,22 @@ export class AuthComponent implements OnInit {
 	authForm: any = {}
 	loginForm: any = {}
 
-	constructor(private authService: AuthService, private apollo: Apollo,private router:Router) { }
+	constructor(private authService: AuthService, private apollo: Apollo,private router:Router,private activatedRoute:ActivatedRoute) { }
 
+
+	formName;
+	method;
 	ngOnInit(): void {
+
+		this.formName = this.activatedRoute.paramMap.subscribe((params) => {
+			console.log(params);
+			this.method = params.get('name');
+			console.log(this.method);
+
+		  })
 	}
 
-	onSwitchMode() {
-		this.isLoginMode = !this.isLoginMode;
-	}
+	
 
 	onSubmit(authForm:NgForm) {
 		this.authForm = authForm.value;
@@ -46,7 +55,7 @@ export class AuthComponent implements OnInit {
 	}
 
 
-	onSubmitLogin(loginForm: NgForm, email:string, password:string, token:string){
+	onSubmitLogin(loginForm: NgForm){
 		this.loginForm = loginForm.value;
 		
 		this.authService.login(this.loginForm).subscribe(data => {
