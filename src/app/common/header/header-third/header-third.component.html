@@ -59,7 +59,7 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a routerLinkActive="active" routerLink="/auth" class="nav-item nav-link ">Authenticate</a>
+                        <!-- <a routerLinkActive="active" routerLink="/auth" class="nav-item nav-link ">Authenticate</a> -->
                         <a routerLinkActive="active" routerLink="/home" class="nav-item nav-link ">Home</a>
                         <a routerLinkActive="active" routerLink="/shop" class="nav-item nav-link">Shop</a>
                         <a routerLinkActive="active" routerLink="/shop-detail" class="nav-item nav-link">Shop Detail</a>
@@ -67,25 +67,26 @@
 
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown">
+
                                 <div class="btn-group" dropdown>
-                                    <a  style="cursor: pointer;" class="dropdown-toggle" role="button"
-                                    >Pages <span class="caret"></span
-                                  ></a>
-                                    <ul class="nav navbar-nav navbar-right">
-                                        <li class="dropdown" appDropdown>
-                                          
-                                          <ul class="dropdown-menu">
-                                            <li>
-                                              <a style="cursor: pointer;">Shopping-cart</a>
-                                            </li>
-                                            <li>
-                                              <a style="cursor: pointer;">Checkout</a>
-                                            </li>
-                                          </ul>
+                                    <a id="button-basic" 
+                                        dropdownToggle type="button" 
+                                        aria-controls="dropdown-basic"> 
+                                        Pages
+                                    </a>
+                                      
+                                    <ul id="dropdown-basic" 
+                                        *dropdownMenu class="dropdown-menu" 
+                                        role="menu" aria-labelledby="button-basic" style="background-color: rgb(70, 68, 68);">
+                                        <li role="menuitem">
+                                            <a style="cursor: pointer;" routerLink="/shopping-cart">Shopping-cart</a>
                                         </li>
-                                      </ul>
-                                    
+                                        <li role="menuitem">
+                                            <a style="cursor: pointer;" routerLink="/checkout">Checkout</a>
+                                        </li>
+                                    </ul>
                                 </div>
+
                             </a>
                         </div>
                         <a routerLink="/contact" class="nav-item nav-link">Contact</a>
@@ -99,7 +100,7 @@
                         <a routerLink="/shopping-cart" class="btn px-0 ml-3">
                             <i class="fa fa-shopping-cart" style="color: white; font-size: 25px;"></i>&nbsp;
                             <span class="badge text-secondary border border-secondary rounded-circle"
-                                style="padding-bottom: 2px;"></span>
+                                style="padding-bottom: 2px;">{{totalItem}}</span>
                         </a>
                     </div>
                 </div>

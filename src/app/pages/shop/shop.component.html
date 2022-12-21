@@ -215,13 +215,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1"  *ngFor="let item of productList">
+                <div class="col-lg-4 col-md-6 col-sm-6 pb-1"  *ngFor="let item of productAddedList">
                     <div class="product-item bg-light mb-4" >
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="{{item.prodImg}}" alt="">
                            
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" ><i class="fa fa-shopping-cart"></i></a>
+                                <a class="btn btn-outline-dark btn-square" (click)="addToCart(item)" routerLink="/shopping-cart"><i class="fa fa-shopping-cart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" ><i class="fa fa-heart" aria-hidden="true"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-refresh" aria-hidden="true"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>

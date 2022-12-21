@@ -16,12 +16,13 @@ export class ShopComponent implements OnInit {
 	error: any;
 
 	allProducts: any;
-	productList: any[];
+	productAddedList: any[];
 
 	currentRate = 0;
 	rating:any;
 
 	form: FormGroup;
+
 
 	// product: Observable<Products[]>;
 
@@ -80,7 +81,7 @@ export class ShopComponent implements OnInit {
 					this.allProducts = this.allProducts.edges;
 
 					 let iterableProducts = this.allProducts.map(item => {
-						console.log(item);
+						// console.log(item);
 						
 						const prodId = item.node.id;
 						const prodName =  item.node.name; //name
@@ -89,7 +90,7 @@ export class ShopComponent implements OnInit {
 						const prodImg = item.node.thumbnail.url; //image
 						
 						const prodRating = item.node.rating; //rating
-						console.log(prodRating);
+						// console.log(prodRating);
 						
 
 						return {prodId,prodName, prodCurrency, prodAmount, prodImg, prodRating} ;
@@ -97,18 +98,19 @@ export class ShopComponent implements OnInit {
 						
 					});
 
-					this.productList = iterableProducts;
-					console.log(this.productList);
+					this.productAddedList = iterableProducts;
+					// console.log(this.productAddedList);
 
+					this.productAddedList.forEach((a:any) => {
+						Object.assign(a,{quantity:1, total:a.prodAmount})
+					});
+					
 				})
-
 
 	}
 
-	addToCart(){
-		// this.cart.getAddToCart(data:any).subscribe{
-
-		// }
+	addToCart(item:any){
+		this.cart.addCart(item);
 	}
 
 

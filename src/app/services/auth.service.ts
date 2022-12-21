@@ -3,35 +3,36 @@ import { Injectable } from "@angular/core";
 import { catchError, throwError } from "rxjs";
 import { Apollo, gql } from 'apollo-angular';
 import { NgForm } from "@angular/forms";
+import { Token } from "graphql";
 
 
-export interface AuthResponseData{
-    kind:string;
-    idToken:string;
-    email:string;
-    refreshToken:string;
-    expiresIn:string;
-    localId: string;
-    registered?: boolean;
+export interface AuthResponseData {
+	kind: string;
+	idToken: string;
+	email: string;
+	refreshToken: string;
+	expiresIn: string;
+	localId: string;
+	registered?: boolean;
 }
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root'
 })
 
 export class AuthService {
 
 	authForm: any;
+	loginForm: any;
 
-    constructor(private http: HttpClient, private apollo: Apollo){}
+	constructor(private http: HttpClient, private apollo: Apollo) { }
 
-    signUp(authForm){
-        // this.authForm = authForm.value;
-        console.log(authForm);
+	signUp(formData) {
+		this.authForm = formData;
+		console.log(this.authForm);
 
-        
 
-        return this.apollo.mutate({
+		return this.apollo.mutate({
 			mutation: gql`
 			mutation accountRegister($input: AccountRegisterInput!) {
 				accountRegister(input: $input){
@@ -53,74 +54,104 @@ export class AuthService {
 					languageCode: "EN",
 					redirectUrl: "http://localhost:4200/product",
 					channel: "default-channel"
-
 				}
 			}
 
 		})
-        // .subscribe(({ data }) => {
-		// 	console.log(data);
 
-		// 	// let users = Object.assign([], this.allUsers);
-		// 	// users.unshift(data["accountRegister"]);
-		// 	// this.allUsers = users;
-
-		// })
+	}
 
 
-    }
+	login(loginData) {
+		this.loginForm = loginData;
+		console.log(this.loginForm);
 
 
-    // signUp(email:string, password:string ){
-    //    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDmKk9u8veuFAy8CaFlnYhZAJJUd3QybCg',
-    //         {
-    //             email: email,
-    //             password: password,
-    //             returnSecuredToken:true
-    //         }
-    //     )
-    //     .pipe(
-    //         catchError(this.handleErrors)
-    //     );
-    // }
+		return this.apollo.mutate({
+			mutation: gql`
+			mutation tokenCreate($email: String!, $password: String!){
+				tokenCreate(email: $email, password: $password) {
+				  token
+				  refreshToken
+				  csrfToken
+				  user {
+					email
+				  }
+				  errors {
+					field
+					message
+				  }
+				}
+			  }
+			  
+		  `,
+			variables: {
+				email: this.loginForm.email,
+				password: this.loginForm.password
+			}
+
+		})
+
+		// this.saveAuthData(token,csrfToken,refreshToken)
+
+	}
 
 
-    // login(email:string, password:string){
-    //    return this.http.post<AuthResponseData>(
-    //         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDmKk9u8veuFAy8CaFlnYhZAJJUd3QybCg',
-    //         {
-    //             email: email,
-    //             password: password,
-    //             returnSecuredToken:true
-    //         }
-    //     )
-    //     .pipe(
-    //         catchError(this.handleErrors)
-    //     );
-    // }
+
+	saveAuthData(token:string, csrfToken:string, refreshToken:string){
+		localStorage.setItem('token',token);
+		localStorage.setItem('csrfToken',csrfToken);
+		localStorage.setItem('refreshToken',refreshToken);
+	}
+	
+	getAuthData(){
+		const token = localStorage.getItem("token");
+		const csrfToken = localStorage.getItem("csrfToken");
+		const refreshToken = localStorage.getItem("refreshToken");
+	}
 
 
-    private handleErrors(errorRes:HttpErrorResponse){
-        let errorMessage = 'An unknown error occured';
 
-        if(!errorRes.error || !errorRes.error.error){
-            return throwError(errorMessage);
-        }
-        switch(errorRes.error.error.message){
-            case 'EMAIL_EXISTS':
-            errorMessage = 'This email already exists';
-            break;
+	// verifyUser(token: string) {
 
-            case 'EMAIL_NOT_FOUND':
-            errorMessage = 'This email does not exists';
-            break;
+	// 	return this.apollo.mutate({
+	// 		mutation: gql`
+    //             mutation tokenVerify($token: String!){
+    //                 tokenVerify(token: $token) {
+    //                   token: String!
+    //                 }
+    //               }
+	// 	  `,
+	// 		variables: {
+	// 			token: token
+	// 		}
 
-            case 'INVALID_PASSWORD':
-            errorMessage = 'This email already exists';
-            break;
+	// 	})
 
-        }
-        return throwError(errorMessage);
-    }
+	// }
+
+
+	// private handleErrors(errorRes:HttpErrorResponse){
+	//     let errorMessage = 'An unknown error occured';
+
+	//     if(!errorRes.error || !errorRes.error.error){
+	//         return throwError(errorMessage);
+	//     }
+	//     switch(errorRes.error.error.message){
+	//         case 'EMAIL_EXISTS':
+	//         errorMessage = 'This email already exists';
+	//         break;
+
+	//         case 'EMAIL_NOT_FOUND':
+	//         errorMessage = 'This email does not exists';
+	//         break;
+
+	//         case 'INVALID_PASSWORD':
+	//         errorMessage = 'This email already exists';
+	//         break;
+
+	//     }
+	//     return throwError(errorMessage);
+	// }
 
 }

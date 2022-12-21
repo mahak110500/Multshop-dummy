@@ -8,97 +8,69 @@
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        class="form-control"
-                        ngModel 
-                        name="email"
-                        required
-                        email
-                    >
+                    <input type="email" id="email" class="form-control" ngModel name="email" required email>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        class="form-control"
-                        ngModel 
-                        name="password"
-                        required
-                        minlength="6"
-                    >
+                    <input type="password" id="password" class="form-control" ngModel name="password" required
+                        minlength="6">
                 </div>
                 <div>
-                    <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid" >
+                    <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">
                         {{isLoginMode ? 'Login': 'Sign Up'}}
                     </button> |
-                    <button class="btn btn-primary" (click)="onSwitchMode()" type="button">Switch to {{ isLoginMode ? 'Sign Up':'Login'}}</button>
+                    <button class="btn btn-primary" (click)="onSwitchMode()" type="button">Switch to {{ isLoginMode ?
+                        'Sign Up':'Login'}}</button>
                 </div>
             </form>
         </div>
     </div>
 
 
-
+    <!-- SIGNUP FORM -->
     <div class="row" *ngIf="!isLoginMode">
         <div class="col-xs-12 col-md-6 col-md-offset-3">
             <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
                 <div class="form-group">
                     <label for="firstname">Firstname</label>
-                    <input 
-                        type="text" 
-                        id="firstname" 
-                        class="form-control"
-                        ngModel 
-                        name="firstname"
-                        required
-                    >
+                    <input type="text" id="firstname" class="form-control" ngModel name="firstname" required>
                 </div>
                 <div class="form-group">
                     <label for="lastname">Lastname</label>
-                    <input 
-                        type="text" 
-                        id="lastname" 
-                        class="form-control"
-                        ngModel 
-                        name="lastname"
-                        required
-                    >
+                    <input type="text" id="lastname" class="form-control" ngModel name="lastname" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        class="form-control"
-                        ngModel 
-                        name="email"
-                        required
-                        email
-                    >
+                    <input type="email" id="email" class="form-control" ngModel name="email" required email>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        class="form-control"
-                        ngModel 
-                        name="password"
-                        required
-                        minlength="6"
-                    >
+                    <input type="password" id="password" class="form-control" ngModel name="password" required
+                        minlength="6" #Password="ngModel">
+                </div>
+                <div class="form-group">
+                    <label for="cpassword">Conirm Password</label>
+                    <input type="password" id="cpassword" class="form-control" ngModel name="cpassword" required
+                        minlength="6" #confirmPassword="ngModel"
+                        [ngClass]="{ 'is-invalid': authForm.submitted && confirmPassword.errors }">
+                    <div *ngIf="authForm.submitted && confirmPassword.errors" class="invalid-feedback">
+                        <div *ngIf="confirmPassword.errors['required']">
+                            Confirm Password is required
+                        </div>
+                        <div *ngIf="confirmPassword.errors['matching']">
+                            Confirm Password does not match
+                        </div>
+                    </div>
                 </div>
                 <div>
-                    <button class="btn btn-primary" type="submit" [disabled]="!authForm.valid" >
+                    <button class="btn btn-primary" type="submit" [disabled]="!authForm.valid">
                         {{isLoginMode ? 'Login': 'Sign Up'}}
                     </button> |
-                    <button class="btn btn-primary" (click)="onSwitchMode()" type="button">Switch to {{ isLoginMode ? 'Sign Up':'Login'}}</button>
+                    <button class="btn btn-primary" (click)="onSwitchMode()" type="button">Switch to {{ isLoginMode ?
+                        'Sign Up':'Login'}}</button>
                 </div>
             </form>
-            
+
         </div>
     </div>
 
