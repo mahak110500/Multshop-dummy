@@ -18,6 +18,9 @@ export class ShopComponent implements OnInit {
 	allProducts: any;
 	productAddedList: any[];
 
+	cartData:any;
+
+
 	currentRate = 0;
 	rating:any;
 
@@ -81,25 +84,27 @@ export class ShopComponent implements OnInit {
 					this.allProducts = this.allProducts.edges;
 
 					 let iterableProducts = this.allProducts.map(item => {
-						// console.log(item);
+						console.log(item);
 						
 						const prodId = item.node.id;
 						const prodName =  item.node.name; //name
 						const prodCurrency = item.node.pricing.priceRange.start.currency; //currency
 						const prodAmount = item.node.pricing.priceRange.start.net.amount; //amount
 						const prodImg = item.node.thumbnail.url; //image
+
+						const variantId = item.node.variants[0].id;
 						
 						const prodRating = item.node.rating; //rating
 						// console.log(prodRating);
 						
 
-						return {prodId,prodName, prodCurrency, prodAmount, prodImg, prodRating} ;
+						return {prodId,prodName, prodCurrency, prodAmount, prodImg, prodRating,variantId} ;
 						
 						
 					});
 
 					this.productAddedList = iterableProducts;
-					// console.log(this.productAddedList);
+					console.log(this.productAddedList);
 
 					this.productAddedList.forEach((a:any) => {
 						Object.assign(a,{quantity:1, total:a.prodAmount})
@@ -110,7 +115,10 @@ export class ShopComponent implements OnInit {
 	}
 
 	addToCart(item:any){
-		this.cart.addCart(item);
+		this.cart.getAddProductsToCart().subscribe(({ data }: any) => {
+			this.cartData = data;
+		  });
+
 	}
 
 

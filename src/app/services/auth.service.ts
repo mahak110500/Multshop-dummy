@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, throwError } from "rxjs";
+import { BehaviorSubject, catchError, throwError } from "rxjs";
 import { Apollo, gql } from 'apollo-angular';
 import { NgForm } from "@angular/forms";
 import { Token } from "graphql";
@@ -24,6 +24,9 @@ export class AuthService {
 
 	authForm: any;
 	loginForm: any;
+
+    // user: any = new BehaviorSubject<User | null>(null);
+
 
 	constructor(private http: HttpClient, private apollo: Apollo) { }
 
@@ -92,24 +95,19 @@ export class AuthService {
 
 		})
 
-		// this.saveAuthData(token,csrfToken,refreshToken)
-
 	}
 
+	private handleAuthentication(email: string, userId: string, token: string) {
+        // const user = new User(
+        //     email,
+        //     userId,
+        //     token
+        // );
 
+        // this.user.next(user);
+        // localStorage.setItem('userData', JSON.stringify(user));
 
-	saveAuthData(token:string, csrfToken:string, refreshToken:string){
-		localStorage.setItem('token',token);
-		localStorage.setItem('csrfToken',csrfToken);
-		localStorage.setItem('refreshToken',refreshToken);
-	}
-	
-	getAuthData(){
-		const token = localStorage.getItem("token");
-		const csrfToken = localStorage.getItem("csrfToken");
-		const refreshToken = localStorage.getItem("refreshToken");
-	}
-
+    }
 
 
 	// verifyUser(token: string) {

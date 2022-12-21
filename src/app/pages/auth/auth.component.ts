@@ -15,8 +15,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
+	formName;
+	method;
 	isLoginMode = true;
- 
 
 	allUsers:any;
 	allLoginUsers:any ;
@@ -27,14 +28,18 @@ export class AuthComponent implements OnInit {
 	constructor(private authService: AuthService, private apollo: Apollo,private router:Router,private activatedRoute:ActivatedRoute) { }
 
 
-	formName;
-	method;
 	ngOnInit(): void {
 
 		this.formName = this.activatedRoute.paramMap.subscribe((params) => {
-			console.log(params);
 			this.method = params.get('name');
-			console.log(this.method);
+			// console.log(this.method);
+
+			if(this.method == 'login'){
+				this.isLoginMode = true;
+			}
+			else {
+				this.isLoginMode = false;
+			}
 
 		  })
 	}
@@ -49,7 +54,6 @@ export class AuthComponent implements OnInit {
 			this.allUsers = data;
 			// this.router.navigate(['/home']);
 			
-			
 		})
 	
 	}
@@ -62,15 +66,15 @@ export class AuthComponent implements OnInit {
 			console.log(data);
 			this.allLoginUsers = data;
 			console.log(this.allLoginUsers);
+
+			localStorage.setItem('userData',JSON.stringify (this.allLoginUsers));
+			var currentUser = JSON.parse(localStorage.getItem('userData'));
+
+			console.log(currentUser);
 			
 			this.router.navigate(['/home']);
 			
 		})
-
-		localStorage.setItem('userData',JSON.stringify (this.allLoginUsers));
-		var currentUser = JSON.parse(localStorage.getItem('userData'));
-
-		console.log(currentUser);
 		
 		// var token = userData.token;
 			
