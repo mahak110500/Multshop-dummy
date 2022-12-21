@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-header-first',
@@ -9,10 +10,13 @@ export class HeaderFirstComponent implements OnInit {
 
 	isLoginMode = true;
 
+  formName;
 
-  constructor() { }
+
+  constructor(private activatedRoute: ActivatedRoute, private route:Router) { }
 
   ngOnInit(): void {
+    this.formName = this.activatedRoute.snapshot.paramMap.get('name');
   }
 
 

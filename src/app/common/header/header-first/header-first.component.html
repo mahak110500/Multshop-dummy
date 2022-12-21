@@ -14,20 +14,20 @@
                 <div class="btn-group" dropdown>
                     <button id="button-basic" 
                         dropdownToggle type="button" 
-                        aria-controls="dropdown-basic"> 
-                        My Account 
-                        <span class="caret"><i class="fas fa-chevron-down"></i></span>
+                        aria-controls="dropdown-basic"
+                        [routerLink]="['/auth', 'signup']"> 
+                        Sign-Up 
                     </button>
-                    <ul id="dropdown-basic" 
-                        *dropdownMenu class="dropdown-menu" 
-                        role="menu" aria-labelledby="button-basic">
-                        <li role="menuitem">
-                            <a class="dropdown-item" routerLink="/auth" >Sign Up</a>
-                        </li>
-                        <li role="menuitem">
-                            <a class="dropdown-item" routerLink="/auth" >Login</a>
-                        </li>
-                    </ul>
+                </div>
+                &nbsp;
+
+                <div class="btn-group" dropdown>
+                    <button id="button-basic" 
+                        dropdownToggle type="button" 
+                        aria-controls="dropdown-basic"
+                        [routerLink]="['/auth', 'login']"> 
+                        Login
+                    </button>
                 </div>
                 &nbsp;
 

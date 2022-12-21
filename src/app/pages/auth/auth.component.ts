@@ -59,6 +59,11 @@ export class AuthComponent implements OnInit {
 		})
 
 		localStorage.setItem('userData',JSON.stringify (this.allLoginUsers));
+		var currentUser = JSON.parse(localStorage.getItem('userData'));
+
+		console.log(currentUser);
+		
+		// var token = userData.token;
 			
 	}
 
