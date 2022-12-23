@@ -6,6 +6,7 @@ import { AutheService } from 'src/app/services/au-th.service';
 import { AuthResponseData, AuthService } from 'src/app/services/auth.service';
 import { Apollo, gql } from 'apollo-angular';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -14,6 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 	styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit {
+
+	isSellerLoggedIn = new BehaviorSubject<boolean>(false);
 
 	formName;
 	method;
@@ -53,6 +56,7 @@ export class AuthComponent implements OnInit {
 			console.log(data);
 			this.allUsers = data;
 			// this.router.navigate(['/home']);
+			window.alert("You've signed-up successfully.Now login!")
 			
 		})
 	
@@ -63,14 +67,12 @@ export class AuthComponent implements OnInit {
 		this.loginForm = loginForm.value;
 		
 		this.authService.login(this.loginForm).subscribe(data => {
-			console.log(data);
 			this.allLoginUsers = data;
 			console.log(this.allLoginUsers);
 
 			localStorage.setItem('userData',JSON.stringify (this.allLoginUsers));
 			var currentUser = JSON.parse(localStorage.getItem('userData'));
-
-			console.log(currentUser);
+			
 			
 			this.router.navigate(['/home']);
 			
@@ -78,6 +80,14 @@ export class AuthComponent implements OnInit {
 		
 		// var token = userData.token;
 			
+	}
+
+	openLogin(){
+		this.isLoginMode = true;
+	}
+
+	openSignup(){
+		this.isLoginMode = false;
 	}
 
 

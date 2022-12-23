@@ -40,6 +40,8 @@ import { LoadingSpinnerComponent } from './pages/auth/loading-spinner/loading-sp
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { AuthGuard } from './pages/auth/auth.guard';
+import { OrderSuccessfulComponent } from './pages/shop-pages/order-successful/order-successful.component';
 
 
 @NgModule({
@@ -70,7 +72,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     ShoppingCartComponent,
     CheckoutComponent,
     AuthComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    OrderSuccessfulComponent
   ],
   imports: [
     BrowserModule,
@@ -85,6 +88,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     
   ],
   providers: [
+    AuthGuard,
     {
       provide: APOLLO_OPTIONS,
       useFactory(httpLink: HttpLink) {

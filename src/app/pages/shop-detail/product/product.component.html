@@ -14,27 +14,21 @@
 
 <!-- Shop Detail Start -->
 <div class="container-fluid pb-5">
-    <div class="row px-xl-5">
+    <div class="row px-xl-5" *ngFor="let item of productAddedList">
 
         <div class="col-lg-5 mb-30">
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner bg-light">
-
-                    <!-- <owl-carousel-o [options]="customOptions"> -->
-                        <ng-template carouselSlide>
                             <div class="slide">
-                                <img src={{prod.img}} alt="img 1">
+                                <img src={{item.prodImg}} alt="img 1">
                             </div>
-                        </ng-template>
-                    <!-- </owl-carousel-o> -->
-
                 </div>
             </div>
         </div>
 
         <div class="col-lg-7 h-auto mb-30">
             <div class="h-100 bg-light p-30">
-                <h3></h3>
+                <h3>{{item.prodName }}</h3>
                 <div class="d-flex mb-3">
                     <div class="text-primary mr-2">
                         <small class="fa fa-star text-primary mr-1"></small>
@@ -45,7 +39,7 @@
                     </div>
                     <small class="pt-1"></small>
                 </div>
-                <h3 class="font-weight-semi-bold mb-4">$</h3>
+                <h3 class="font-weight-semi-bold mb-4">{{item.prodAmount | currency}}</h3>
                 <p class="mb-4"></p>
                 <div class="d-flex mb-3">
                     <strong class="text-dark mr-3">Sizes:</strong>
@@ -104,7 +98,7 @@
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary border-0 text-center" value="">
+                        <input type="text" class="form-control bg-secondary border-0 text-center" value="{{item.quantity}}">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus" type="button" >
                                 <i class="fa fa-plus"></i>

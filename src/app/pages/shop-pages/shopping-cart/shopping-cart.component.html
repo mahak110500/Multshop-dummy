@@ -1,3 +1,5 @@
+
+
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -33,11 +35,11 @@
                             <td>{{i+1}}</td>
                             <td class="align-middle"><img src="{{item.prodImg}}" alt="" style="width: 50px;">
                             </td>
-                            <td class="align-middle">{{item.prodCurrency}}{{item.prodAmount}}</td>
+                            <td class="align-middle">{{item.prodAmount | currency}}</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" type="button" >
+                                        <button class="btn btn-sm btn-primary btn-minus" type="button" (click)="onDecrement(item.prodId, item.quantity)">
                                             <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
@@ -45,13 +47,13 @@
                                         class="form-control form-control-sm bg-secondary border-0 text-center"
                                         value="{{item.quantity}}">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus" type="button"  >
+                                        <button class="btn btn-sm btn-primary btn-plus" type="button"  (click)="onIncrement(item.prodId, item.quantity)">
                                             <i class="fa fa-plus"></i>
                                         </button>
                                     </div>
                                 </div>
                             </td>
-                            <td class="align-middle">{{item.prodCurrency}}{{item.total}}</td>
+                            <td class="align-middle">{{item.prodAmount*item.quantity | currency}}</td>
                             <td class="align-middle"><button class="btn btn-sm btn-danger" (click)="removeItem(item)"><i
                                         class="fa fa-times"></i></button></td>
                         </tr>
@@ -60,7 +62,7 @@
                 </table>
             </div>
 
-            <div class="col-lg-8 table-responsive mb-5" *ngIf="products.length == 0">
+            <div class="col-lg-8 table-responsive mb-5" *ngIf="products.length == 0" style="text-align: center; padding-top: 60px; margin-top: 60px;">
                 <div class="center">
                     <h4>Your cart is empty now!</h4>
                     <button class="btn btn-primary" routerLink="/shop">Continue Shopping</button>
@@ -94,7 +96,7 @@
                             <h5>Total</h5>
                             <h5>$160</h5>
                         </div>
-                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" routerLink="/checkout">Proceed To Checkout</button>
                     </div>
                 </div>
             </div>

@@ -19,8 +19,9 @@
                     <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">
                         Login
                     </button> 
-                   
-                </div>
+                </div><br>
+                <a (click)="openSignup()" style="cursor: pointer; color: rgb(9, 9, 167); font-size: 17px;">Don't have an accoutn? Click here for Sign-up!</a>
+
             </form>
         </div>
     </div>
@@ -65,8 +66,8 @@
                     <button class="btn btn-primary" type="submit" [disabled]="!authForm.valid">
                        Sign Up
                     </button> 
-                  
-                </div>
+                </div><br>
+                <a (click)="openLogin()" style="cursor: pointer; color: rgb(9, 9, 167); font-size: 20px;">Click here for Login!</a>
             </form>
 
         </div>

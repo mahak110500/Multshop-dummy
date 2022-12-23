@@ -1,0 +1,8 @@
+input.ng-valid.ng-touches{
+    border: red 2px solid;
+}
+span.help-block{
+    color: red;
+    font-size: 18px;
+
+}
