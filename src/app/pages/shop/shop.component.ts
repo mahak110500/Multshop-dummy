@@ -115,6 +115,9 @@ export class ShopComponent implements OnInit {
 	}
 
 	addToCart(item:any){
+		this.cart.getAddToCart().subscribe(res => {
+			
+		})
 		this.cart.getAddProductsToCart().subscribe(({ data }: any) => {
 			this.cartData = data;
 		  });
