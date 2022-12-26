@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular'
+import { OwlOptions } from 'ngx-owl-carousel-o';
 import { Query } from 'src/app/models/product-list.model';
 
 
@@ -56,42 +57,70 @@ export class ProductComponent implements OnInit {
 			  
 			`
 		})
-		.valueChanges
-		.subscribe(
-			({ data }) => {
-				this.allProducts = data.products;
-				this.allProducts = this.allProducts.edges;
+			.valueChanges
+			.subscribe(
+				({ data }) => {
+					this.allProducts = data.products;
+					this.allProducts = this.allProducts.edges;
 
-				let iterableProducts = this.allProducts.map(item => {
-					// console.log(item);
+					let iterableProducts = this.allProducts.map(item => {
+						// console.log(item);
 
-					const prodId = item.node.id;
-					const prodName = item.node.name; //name
-					const prodCurrency = item.node.pricing.priceRange.start.currency; //currency
-					const prodAmount = item.node.pricing.priceRange.start.net.amount; //amount
-					const prodImg = item.node.thumbnail.url; //image
+						const prodId = item.node.id;
+						const prodName = item.node.name; //name
+						const prodCurrency = item.node.pricing.priceRange.start.currency; //currency
+						const prodAmount = item.node.pricing.priceRange.start.net.amount; //amount
+						const prodImg = item.node.thumbnail.url; //image
 
-					const variantId = item.node.variants[0].id;
+						const variantId = item.node.variants[0].id;
 
-					const prodRating = item.node.rating; //rating
-					// console.log(prodRating);
-
-
-					return { prodId, prodName, prodAmount, prodImg, prodRating, variantId };
+						const prodRating = item.node.rating; //rating
+						// console.log(prodRating);
 
 
-				});
+						return { prodId, prodName, prodAmount, prodImg, prodRating, variantId };
 
-				this.productAddedList = iterableProducts;
-				// console.log(this.productAddedList);
 
-				//for adding quantity and amount to the productsArray
-				this.productAddedList.forEach((a: any) => {
-					Object.assign(a, { quantity: 1, total: a.prodAmount })
-				});
+					});
 
-			})
+					this.productAddedList = iterableProducts;
+					// console.log(this.productAddedList);
+
+					//for adding quantity and amount to the productsArray
+					this.productAddedList.forEach((a: any) => {
+						Object.assign(a, { quantity: 1, total: a.prodAmount })
+					});
+
+				})
 
 	}
+
+	customOptions: OwlOptions = {
+		loop: true,
+		mouseDrag: true,
+		touchDrag: false,
+		pullDrag: true,
+		dots: false,
+		autoplay: false,
+		autoplayTimeout: 3000,
+		navSpeed: 700,
+		navText: ["<div class='nav-button owl-prev'>‹</div>", "<div class='nav-button owl-next'>›</div>"],
+		responsive: {
+			0: {
+				items: 1
+			},
+			400: {
+				items: 1
+			},
+			740: {
+				items: 1
+			},
+			940: {
+				items: 1
+			}
+		},
+		nav: true
+	}
+
 
 }

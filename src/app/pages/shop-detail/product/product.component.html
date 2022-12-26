@@ -13,22 +13,28 @@
 <!-- Breadcrumb End -->
 
 <!-- Shop Detail Start -->
-<div class="container-fluid pb-5">
-    <div class="row px-xl-5" *ngFor="let item of productAddedList">
+<div class="container-fluid pb-5"  *ngFor="let prod of productAddedList">
+    <div class="row px-xl-5">
 
         <div class="col-lg-5 mb-30">
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner bg-light">
+
+                    <owl-carousel-o [options]="customOptions">
+                        <ng-template carouselSlide>
                             <div class="slide">
-                                <img src={{item.prodImg}} alt="img 1">
+                                <img src="{{prod.prodImg}}" alt="img 1">
                             </div>
+                        </ng-template>
+                    </owl-carousel-o>
+
                 </div>
             </div>
         </div>
 
         <div class="col-lg-7 h-auto mb-30">
             <div class="h-100 bg-light p-30">
-                <h3>{{item.prodName }}</h3>
+                <h3>{{prod.prodName}}</h3>
                 <div class="d-flex mb-3">
                     <div class="text-primary mr-2">
                         <small class="fa fa-star text-primary mr-1"></small>
@@ -37,10 +43,10 @@
                         <small class="fa fa-star text-primary mr-1"></small>
                         <small class="fa fa-star text-primary mr-1"></small>
                     </div>
-                    <small class="pt-1"></small>
+                    <small class="pt-1">({{prod.prodRating}})</small>
                 </div>
-                <h3 class="font-weight-semi-bold mb-4">{{item.prodAmount | currency}}</h3>
-                <p class="mb-4"></p>
+                <h3 class="font-weight-semi-bold mb-4">{{prod.prodAmount | currency}}</h3>
+                <!-- <p class="mb-4">{{prod.description}}</p> -->
                 <div class="d-flex mb-3">
                     <strong class="text-dark mr-3">Sizes:</strong>
                     <form>
@@ -94,13 +100,13 @@
                 <div class="d-flex align-items-center mb-4 pt-2">
                     <div class="input-group quantity mr-3" style="width: 130px;">
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus" type="button" >
+                            <button class="btn btn-primary btn-minus" type="button">
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary border-0 text-center" value="{{item.quantity}}">
+                        <input type="text" class="form-control bg-secondary border-0 text-center" value={{prod.quantity}}>
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus" type="button" >
+                            <button class="btn btn-primary btn-plus" type="button">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
@@ -112,16 +118,16 @@
                     <strong class="text-dark mr-2">Share on:</strong>
                     <div class="d-inline-flex">
                         <a class="text-dark px-2" href="">
-                            <i class="fab fa-facebook-f"></i>
+                            <i class="fa fa-facebook-official" aria-hidden="true"></i>
                         </a>
                         <a class="text-dark px-2" href="">
-                            <i class="fab fa-twitter"></i>
+                            <i class="fa fa-twitter-square" aria-hidden="true"></i>
                         </a>
                         <a class="text-dark px-2" href="">
-                            <i class="fab fa-linkedin-in"></i>
+                            <i class="fa fa-linkedin-square" aria-hidden="true"></i>
                         </a>
                         <a class="text-dark px-2" href="">
-                            <i class="fab fa-pinterest"></i>
+                            <i class="fa fa-pinterest-square" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>

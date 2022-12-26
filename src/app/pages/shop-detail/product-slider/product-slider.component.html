@@ -3,7 +3,8 @@
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also
             Like</span></h2>
     <div class="row px-xl-5">
-       
+        <owl-carousel-o [options]="customOptions">
+            <ng-template carouselSlide>
                 <div class="slide">
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
@@ -33,8 +34,8 @@
                         </div>
                     </div>
                 </div>
-           
-         
+            </ng-template>
+            <ng-template carouselSlide>
                 <div class="slide">
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
@@ -64,6 +65,8 @@
                         </div>
                     </div>
                 </div>
+            </ng-template>
+            <ng-template carouselSlide>
                 <div class="slide">
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
@@ -93,6 +96,8 @@
                         </div>
                     </div>
                 </div>
+            </ng-template>
+            <ng-template carouselSlide>
                 <div class="slide">
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
@@ -122,6 +127,8 @@
                         </div>
                     </div>
                 </div>
+            </ng-template>
+            <ng-template carouselSlide>
                 <div class="slide">
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
@@ -151,6 +158,8 @@
                         </div>
                     </div>
                 </div>
+            </ng-template>
+            <ng-template carouselSlide>
                 <div class="slide">
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
@@ -180,6 +189,8 @@
                         </div>
                     </div>
                 </div>
+            </ng-template>
+        </owl-carousel-o>
     </div>
 </div>
 <!-- Products End -->

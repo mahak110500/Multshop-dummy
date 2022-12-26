@@ -42,6 +42,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AuthGuard } from './pages/auth/auth.guard';
 import { OrderSuccessfulComponent } from './pages/shop-pages/order-successful/order-successful.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 
 @NgModule({
@@ -84,7 +85,8 @@ import { OrderSuccessfulComponent } from './pages/shop-pages/order-successful/or
     NgxStarRatingModule,
     FormsModule,
     ReactiveFormsModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    CarouselModule
     
   ],
   providers: [

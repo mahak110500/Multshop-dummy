@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, OnInit } from "@angular/core";
 import { Apollo, gql } from 'apollo-angular'
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 
 const ADD_PRODUCTS = gql`
     mutation AddProduct($token: UUID, $lines: [CheckoutLineInput!]!) {
@@ -26,6 +26,9 @@ export class CartService implements OnInit {
 
 	checkoutLineInputs: any[];
 
+    items: any = [];
+    productCount: any = 0;
+    emitQty = new Subject<any>();
 
 
     constructor(private http: HttpClient, private apollo: Apollo) { }
@@ -101,9 +104,35 @@ export class CartService implements OnInit {
 
 
     addCart(product: any) {
-        // console.log(product);
         
-        this.cartItemList.push(product);
+        // this.cartItemList.push(product);
+
+        let productExists = false;
+
+        for(let i in this.cartItemList){
+            if(this.cartItemList[i].productId ===  product.prodId){
+                this.cartItemList[i].quantity++
+                productExists = true
+                break;
+            }
+        }
+		
+		if(!productExists){
+			this.cartItemList.push({
+                productId: product.prodId,
+                productImg:product.prodImg,
+                productName: product.prodName,
+                quantity:1,
+                productTotal:product.total,
+                price: product.prodAmount,
+                productVariantId: product.variantId
+
+            })
+		}
+
+        // console.log(this.cartItemList);
+
+
         this.productList.next(this.cartItemList);
         this.getTotalPrice();
 
@@ -117,7 +146,7 @@ export class CartService implements OnInit {
 		})
 
         this.checkoutLineInputs = linesInput;
-        console.log(this.checkoutLineInputs);
+        // console.log(this.checkoutLineInputs);
         
 
 		// localStorage.setItem('productsData',JSON.stringify (this.cartItemList));
@@ -126,6 +155,35 @@ export class CartService implements OnInit {
         // console.log(this.cartItemList);
 
     }
+
+    // totalItemsCount(items:any){
+    //     console.log(items);
+        
+    //     this.productCount = 0;
+        
+    //     const totalCount = this.cartItemList.filter((item:any) => {
+    //         // console.log(item);
+    //         this.productCount = +this.productCount + +item.quantity
+    //     })
+    //     // console.log(this.productCount);
+
+    //     this.emitQty.next(this.productCount)
+        
+    // }
+
+    totalItemsCount(items:any){
+        console.log(items);
+         
+        this.productCount = 0;
+        const totalCount = this.items.filter((item:any) => {
+            this.productCount = +this.productCount + +item.quantity
+        })
+        console.log(this.productCount);
+        
+        this.emitQty.next(this.productCount)
+
+    } 
+
 
     getTotalPrice(): number {
         let grandTotal = 0;

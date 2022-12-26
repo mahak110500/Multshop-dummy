@@ -15,7 +15,14 @@ export class HeaderThirdComponent implements OnInit {
 
   ngOnInit(): void {
     this.cart.getProducts().subscribe(res => {
-      this.totalItem = res.length;
+      // this.totalItem = res.length;
+    })
+
+    this.cart.emitQty.subscribe((res:any) => {
+      console.log(res);
+      
+      this.totalItem = res;
+
     })
 
   }

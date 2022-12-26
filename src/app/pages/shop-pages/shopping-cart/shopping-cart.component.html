@@ -33,9 +33,9 @@
                     <tbody class="align-middle">
                         <tr *ngFor="let item of products; let i=index">
                             <td>{{i+1}}</td>
-                            <td class="align-middle"><img src="{{item.prodImg}}" alt="" style="width: 50px;">
+                            <td class="align-middle"><img src="{{item.productImg}}" alt="" style="width: 50px;">
                             </td>
-                            <td class="align-middle">{{item.prodAmount | currency}}</td>
+                            <td class="align-middle">{{item.price | currency}}</td>
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="align-middle">{{item.prodAmount*item.quantity | currency}}</td>
+                            <td class="align-middle">{{item.price*item.quantity | currency}}</td>
                             <td class="align-middle"><button class="btn btn-sm btn-danger" (click)="removeItem(item)"><i
                                         class="fa fa-times"></i></button></td>
                         </tr>
@@ -84,17 +84,17 @@
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>$150</h6>
+                            <h6>${{cartTotal}}</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6 class="font-weight-medium">$00</h6>
                         </div>
                     </div>
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5>$160</h5>
+                            <h5>${{cartTotal}}</h5>
                         </div>
                         <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" routerLink="/checkout">Proceed To Checkout</button>
                     </div>

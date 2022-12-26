@@ -87,15 +87,13 @@ export class ShopComponent implements OnInit {
 						const prodCurrency = item.node.pricing.priceRange.start.currency; //currency
 						const prodAmount = item.node.pricing.priceRange.start.net.amount; //amount
 						const prodImg = item.node.thumbnail.url; //image
+						const prodRating = item.node.rating; //rating
 
 						const variantId = item.node.variants[0].id;
 
-						const prodRating = item.node.rating; //rating
 						// console.log(prodRating);
 
-
 						return { prodId, prodName, prodAmount, prodImg, prodRating, variantId };
-
 
 					});
 
@@ -108,12 +106,14 @@ export class ShopComponent implements OnInit {
 					});
 
 				})
+		
+		//for displaying total product count in header cart
+		this.cart.totalItemsCount(this.cart.productCount);		
 
 	}
 
 	addToCart(item: any) {
 		this.cart.addCart(item);
-
 	}
 
 	
