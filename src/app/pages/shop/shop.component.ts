@@ -34,48 +34,12 @@ export class ShopComponent implements OnInit {
 
 	ngOnInit(): void {
 
-		this.apollo.watchQuery<Query>({
-			query: gql`
-			query  {
-				products(
-				  first: 9
-				  channel: "default-channel"
-				) {
-				  edges {
-					node {
-					  id
-					  name
-					  rating
-					  category {
-						name
-					  }
-					  thumbnail {
-						url
-					  }
-					  pricing {
-						priceRange {
-						  start {
-							currency
-							net {
-							  amount
-							}
-						  }
-						}
-					  }
-					  variants {
-						id
-						name
-					  }
-					}
-				  }
-				}
-			  }
-			  
-			`
-		})
-			.valueChanges
+		
+			this.cart.displayProductList().valueChanges
 			.subscribe(
 				({ data }) => {
+					// console.log(data);
+					
 					this.allProducts = data.products;
 					this.allProducts = this.allProducts.edges;
 
@@ -114,6 +78,16 @@ export class ShopComponent implements OnInit {
 
 	addToCart(item: any) {
 		this.cart.addCart(item);
+		this.cartNumberFunction();
+	}
+
+	cartNumber:number = 0;
+	cartNumberFunction(){
+		var cartValue = JSON.parse(localStorage.getItem('productsData'));
+		this.cartNumber = cartValue.length;
+
+		this.cart.cartSubject.next(this.cartNumber);
+		
 	}
 
 	

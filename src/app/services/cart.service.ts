@@ -2,6 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, OnInit } from "@angular/core";
 import { Apollo, gql } from 'apollo-angular'
 import { BehaviorSubject, Subject } from "rxjs";
+import { Query } from 'src/app/models/product-list.model';
+
 
 const ADD_PRODUCTS = gql`
     mutation AddProduct($token: UUID, $lines: [CheckoutLineInput!]!) {
@@ -20,15 +22,19 @@ const ADD_PRODUCTS = gql`
     providedIn: 'root'
 })
 export class CartService implements OnInit {
+	allProducts: any;
+	productAddedList: any[];
 
     public cartItemList: any = []
     public productList = new BehaviorSubject<any>([]);
 
-	checkoutLineInputs: any[];
+    checkoutLineInputs: any[];
 
     items: any = [];
     productCount: any = 0;
     emitQty = new Subject<any>();
+
+    cartSubject = new Subject<any>();
 
 
     constructor(private http: HttpClient, private apollo: Apollo) { }
@@ -37,56 +43,47 @@ export class CartService implements OnInit {
 
     }
 
-    getAddToCart() {
-        return this.apollo.mutate({
-            mutation: gql`
-                mutation CheckoutCreate($input: CheckoutCreateInput!) {
-                    checkoutCreate(input: $input) {
-                        checkout {
-                            token
-                        }
-                        errors {
-                            field
-                            code
-                        }
-                    }
-                    }
-		  `,
-            variables: {
-                token: 'd0ec1cd4-1f3b-4d28-bebf-3f0abbfff02c',
-            }
-
+    displayProductList() {
+        return this.apollo.watchQuery<Query>({
+            query: gql`
+			query  {
+				products(
+				  first: 9
+				  channel: "default-channel"
+				) {
+				  edges {
+					node {
+					  id
+					  name
+					  rating
+					  category {
+						name
+					  }
+					  thumbnail {
+						url
+					  }
+					  pricing {
+						priceRange {
+						  start {
+							currency
+							net {
+							  amount
+							}
+						  }
+						}
+					  }
+					  variants {
+						id
+						name
+					  }
+					}
+				  }
+				}
+			  }
+			  
+			`
         })
-    }
-
-    getAddProductsToCart(product:any){
-        // this.getAddToCart().subscribe(data => {
-        //     console.log(data);
-            
-        // })
-
-        // return this.apollo.mutate({
-        //     mutation: gql`
-        //     mutation AddProduct($token: UUID, $lines: [CheckoutLineInput!]!) {
-        //         checkoutLinesAdd(token: $token, lines: $lines) {
-        //           checkout {
-        //             id
-        //             lines {
-        //               id
-        //             }
-        //           }
-        //         }
-        //     }
-		//   `,
-        //   variables: {
-        //     token: 'd0ec1cd4-1f3b-4d28-bebf-3f0abbfff02c',
-        //     lines: [
-        //       { quantity: 1, variantId: product['node']['variants'][0]['id']}
-        //     ],
-        //   },
-        // })
-
-        
+           
     }
 
 
@@ -104,31 +101,31 @@ export class CartService implements OnInit {
 
 
     addCart(product: any) {
-        
+
         // this.cartItemList.push(product);
 
         let productExists = false;
 
-        for(let i in this.cartItemList){
-            if(this.cartItemList[i].productId ===  product.prodId){
+        for (let i in this.cartItemList) {
+            if (this.cartItemList[i].productId === product.prodId) {
                 this.cartItemList[i].quantity++
                 productExists = true
                 break;
             }
         }
-		
-		if(!productExists){
-			this.cartItemList.push({
+
+        if (!productExists) {
+            this.cartItemList.push({
                 productId: product.prodId,
-                productImg:product.prodImg,
+                productImg: product.prodImg,
                 productName: product.prodName,
-                quantity:1,
-                productTotal:product.total,
+                quantity: 1,
+                productTotal: product.total,
                 price: product.prodAmount,
                 productVariantId: product.variantId
 
             })
-		}
+        }
 
         // console.log(this.cartItemList);
 
@@ -137,52 +134,37 @@ export class CartService implements OnInit {
         this.getTotalPrice();
 
         let linesInput = this.cartItemList.map(item => {
-			const itemQty =  item.quantity;
+            const itemQty = item.quantity;
             const itemVariantId = item.variantId;
             const itemPrice = item.prodAmount;
 
-            return {itemQty,itemVariantId,itemPrice};
-			
-		})
+            return { itemQty, itemVariantId, itemPrice };
+
+        })
 
         this.checkoutLineInputs = linesInput;
         // console.log(this.checkoutLineInputs);
-        
 
-		// localStorage.setItem('productsData',JSON.stringify (this.cartItemList));
-		// var productData = JSON.parse(localStorage.getItem('productsData'));
-        
-        // console.log(this.cartItemList);
+        localStorage.setItem('productsData',JSON.stringify (this.cartItemList));
+        var productData = JSON.parse(localStorage.getItem('productsData'));
+
+        var productQty = JSON.parse(localStorage.getItem('productsData.quantity'));
 
     }
 
-    // totalItemsCount(items:any){
-    //     console.log(items);
-        
-    //     this.productCount = 0;
-        
-    //     const totalCount = this.cartItemList.filter((item:any) => {
-    //         // console.log(item);
-    //         this.productCount = +this.productCount + +item.quantity
-    //     })
-    //     // console.log(this.productCount);
 
-    //     this.emitQty.next(this.productCount)
-        
-    // }
-
-    totalItemsCount(items:any){
-        console.log(items);
+    totalItemsCount(items: any) {
+        // console.log(items);
          
-        this.productCount = 0;
-        const totalCount = this.items.filter((item:any) => {
-            this.productCount = +this.productCount + +item.quantity
-        })
-        console.log(this.productCount);
-        
-        this.emitQty.next(this.productCount)
 
-    } 
+        // this.productCount = 0;
+        // const totalCount = this.cartItemList.filter((item: any) => {
+        //     this.productCount = +this.productCount + +item.quantity
+        // })
+
+        // this.emitQty.next(this.productCount)
+
+    }
 
 
     getTotalPrice(): number {
@@ -199,7 +181,7 @@ export class CartService implements OnInit {
                 this.cartItemList.splice(index, 1);
             }
             // console.log(product.prodId);
-            
+
         })
         this.productList.next(this.cartItemList);
     }

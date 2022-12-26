@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular'
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { Query } from 'src/app/models/product-list.model';
+import { CartService } from 'src/app/services/cart.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ export class ProductComponent implements OnInit {
 	productAddedList: any[];
 
 
-	constructor(private apollo: Apollo) { }
+	constructor(private apollo: Apollo, private cart:CartService) { }
 
 	ngOnInit(): void {
 
@@ -22,7 +23,7 @@ export class ProductComponent implements OnInit {
 			query: gql`
 			query  {
 				products(
-				  first: 4
+				  first: 1
 				  channel: "default-channel"
 				) {
 				  edges {
@@ -75,8 +76,6 @@ export class ProductComponent implements OnInit {
 						const variantId = item.node.variants[0].id;
 
 						const prodRating = item.node.rating; //rating
-						// console.log(prodRating);
-
 
 						return { prodId, prodName, prodAmount, prodImg, prodRating, variantId };
 
@@ -96,14 +95,15 @@ export class ProductComponent implements OnInit {
 	}
 
 	customOptions: OwlOptions = {
+
 		loop: true,
 		mouseDrag: true,
 		touchDrag: false,
 		pullDrag: true,
 		dots: false,
-		autoplay: false,
-		autoplayTimeout: 3000,
-		navSpeed: 700,
+		navSpeed: 600,
+		autoplay:true,
+		autoplayTimeout:3000,
 		navText: ["<div class='nav-button owl-prev'>‹</div>", "<div class='nav-button owl-next'>›</div>"],
 		responsive: {
 			0: {
@@ -120,6 +120,11 @@ export class ProductComponent implements OnInit {
 			}
 		},
 		nav: true
+	}
+
+	addToCart(item: any) {
+		// console.log(item);
+		this.cart.addCart(item);
 	}
 
 
