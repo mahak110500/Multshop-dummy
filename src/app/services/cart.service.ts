@@ -124,10 +124,6 @@ export class CartService implements OnInit {
 				
 			})
 		}
-		
-
-		// console.log(this.cartItemList);
-
 
 		this.productList.next(this.cartItemList);
 		this.getTotalPrice();
@@ -138,7 +134,6 @@ export class CartService implements OnInit {
 			const itemPrice = item.prodAmount;
 
 			return { itemQty, itemVariantId, itemPrice };
-
 		})
 
 		this.checkoutLineInputs = linesInput;
@@ -147,7 +142,6 @@ export class CartService implements OnInit {
 		localStorage.setItem('productsData', JSON.stringify(this.cartItemList));
 		var productData = JSON.parse(localStorage.getItem('productsData'));
 
-		// var productQty = JSON.parse(localStorage.getItem('productsData.quantity'));
 
 	}
 

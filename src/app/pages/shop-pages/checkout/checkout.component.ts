@@ -13,10 +13,24 @@ export class CheckoutComponent implements OnInit {
 	checkoutform: any;
 	show: boolean;
 	totalCartAmount:number;
+	public products: any = [];
+
 
 	constructor(private router: Router,private cart: CartService) { }
 
 	ngOnInit(): void {
+
+		this.cart.getProducts().subscribe(res => {
+			console.log(res);
+			
+			this.products = res;
+
+			let data = JSON.parse(localStorage.getItem('productsData'));  //object of products getting added to shopping cart and stored in localstorage
+			
+			if (this.products == '') {
+				this.products = data;
+			}
+		})
 
 		this.show = false;
 
