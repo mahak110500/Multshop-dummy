@@ -17,17 +17,13 @@ export class HeaderThirdComponent implements OnInit {
   ngOnInit(): void {
     this.cart.cartSubject.subscribe(res => {
       this.cartItem = res;
+      
     })
 
     this.cartItemFunction();
 
     this.cart.getProducts().subscribe(res => {
       // this.totalItem = res.length;
-    })
-
-    this.cart.emitQty.subscribe((res:any) => {
-      // console.log(res);
-      this.totalItem = res;
     })
 
   }
@@ -45,9 +41,11 @@ export class HeaderThirdComponent implements OnInit {
       var cartCount = JSON.parse(localStorage.getItem('productsData'));
       console.log(cartCount);
 
-      for(let i=0; i<cartCount.length; i++){
-        this.cartItem = cartCount[i].quantity + this.cartItem
-      }
+      // for(let i=0; i<cartCount.length; i++){
+      //   this.cartItem = cartCount[i].quantity + this.cartItem
+      // }
+      // console.log(this.cartItem);
+      
       
     }
   }
