@@ -34,7 +34,6 @@ export class ShopComponent implements OnInit {
 
 	ngOnInit(): void {
 
-
 		this.cart.displayProductList().valueChanges
 			.subscribe(
 				({ data }) => {
@@ -71,21 +70,37 @@ export class ShopComponent implements OnInit {
 
 				})
 
+		let data = JSON.parse(localStorage.getItem('productsData'));  //object of products getting added to shopping cart and stored in localstorage
+		// console.log(data);
+
+		if (this.products == '') {
+			this.products = data;
+		}
+		console.log(this.products);
+		
 	}
 
 	addToCart(item: any) {
 		this.cart.addCart(item);
-		this.cartNumberFunction();
+		this.cart.cartNumberFunction();
+		// this.cart.getCartQty(this.products);
+		// console.log(this.products);
+		
+
 	}
+
 
 	cartNumber: number = 0;
-	cartNumberFunction() {
-		var cartValue = JSON.parse(localStorage.getItem('productsData'));
-		this.cartNumber = cartValue.length;
 
-		this.cart.cartSubject.next(this.cartNumber);
+	// cartNumberFunction() {
+	// 	var cartValue = JSON.parse(localStorage.getItem('productsData'));
+	// 	this.cartNumber = cartValue.length;
 
-	}
+	// 	this.cart.cartSubject.next(this.cartNumber);
+
+	// }
+
+
 
 
 }

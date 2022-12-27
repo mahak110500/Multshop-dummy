@@ -18,6 +18,8 @@ export class HeaderThirdComponent implements OnInit {
     this.cart.cartSubject.subscribe(res => {
       this.cartItem = res;
     })
+    console.log(this.cartItem);
+    
 
     this.cartItemFunction();
 
@@ -40,9 +42,9 @@ export class HeaderThirdComponent implements OnInit {
         this.cartItem = cartCount[i].quantity + this.cartItem
       }
       console.log(this.cartItem);
-      
-      
     }
   }
+
+  
 
 }

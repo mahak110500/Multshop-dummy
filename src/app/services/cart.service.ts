@@ -41,7 +41,6 @@ export class CartService implements OnInit {
 	constructor(private http: HttpClient, private apollo: Apollo) { }
 
 	ngOnInit(): void {
-		this.getCartProductData();
 	}
 
 	displayProductList() {
@@ -154,20 +153,6 @@ export class CartService implements OnInit {
 	}
 
 
-	getCartProductData() {
-		let data = localStorage.getItem('productsData');
-		data = JSON.parse(data);  //object of products getting added to shopping cart and stored in localstorage
-		console.log(data);
-
-		if (this.items == '') {
-			this.items = data
-		}
-		console.log(this.items);
-		
-	}
-
-
-
 	getTotalPrice(): number {
 		let grandTotal = 0;
 		this.cartItemList.map((a: any) => {
@@ -175,6 +160,37 @@ export class CartService implements OnInit {
 		})
 		return grandTotal;
 	}
+
+
+	cartNumber: any = 0;
+	//for storing the length of array of products being added to cart
+	cartNumberFunction(){
+		var cartValue = JSON.parse(localStorage.getItem('productsData'));
+		this.cartNumber = cartValue.length;
+		console.log(this.cartNumber);
+		
+		this.cartSubject.next(this.cartNum);
+	}
+	
+	cartNum: any = 0;
+	getCartQty(product:any){
+		console.log(product);
+
+		this.cartNum =0; 
+		for(let i = 0; i< product.length; i++){
+			this.cartNum = product[i].quantity + this.cartNum;
+		}
+		console.log(this.cartNum);
+		
+		
+		// console.log(this.cartNum); //total qty of products in the cart after doing increment
+		localStorage.setItem('productsData', JSON.stringify(product));
+		
+
+	}
+
+	
+
 
 	
 

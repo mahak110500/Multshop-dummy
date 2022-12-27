@@ -13,6 +13,8 @@ export class ShoppingCartComponent implements OnInit {
 	items:any = [];
 
 	cartTotal:any = 0;
+	cartNumber: number = 0;
+	cartNum: any = 0;
 
 	constructor(private cart: CartService) { }
 
@@ -54,24 +56,15 @@ export class ShoppingCartComponent implements OnInit {
 		this.products = res;
 		for (let i = 0; i < this.products.length; i++) {
 			this.cartNum = this.products[i].quantity + this.cartNum
-		}
+		} 
 
-		this.cartNumberFunction();
+		this.cart.cartNumberFunction(); 
+
 
 	}
 
-	//for storing the length of array of products being added to cart
-	cartNumber: number = 0;
-	cartNumberFunction(){
-		var cartValue = JSON.parse(localStorage.getItem('productsData'));
-		this.cartNumber = cartValue.length;
-		// console.log(this.cartNumber);
-		
-		this.cart.cartSubject.next(this.cartNum);
-	}
+	
 
-
-	cartNum: any = 0;
 	onIncrement(productId, quantity) {
 		
 		for(let i=0; i< this.products.length; i++){
@@ -85,16 +78,21 @@ export class ShoppingCartComponent implements OnInit {
 			window.alert('You can add upto 5 items only')
 		}
 
-		this.cartNum =0;
-		for(let i = 0; i< this.products.length; i++){
-			this.cartNum = this.products[i].quantity + this.cartNum;
-		}
-		// console.log(this.cartNum); //total qty of products in the cart after doing increment
-		localStorage.setItem('productsData', JSON.stringify(this.products));
 		
-		this.cartNumberFunction();
+		this.cart.getCartQty(this.products);
+		
+		// this.cartNum =0; 
+		// for(let i = 0; i< this.products.length; i++){
+		// 	this.cartNum = this.products[i].quantity + this.cartNum;
+		// }
+			
+		// // console.log(this.cartNum); //total qty of products in the cart after doing increment
+		// localStorage.setItem('productsData', JSON.stringify(this.products));
+			
+		this.cart.cartNumberFunction(); 
 		
 	}
+
 
 	onDecrement(productId,quantity) {
 		for (let i = 0; i < this.products.length; i++) {
@@ -103,14 +101,28 @@ export class ShoppingCartComponent implements OnInit {
 					this.products[i].quantity = parseInt(quantity) - 1;
 			}
 		}
-		localStorage.setItem('productsData',JSON.stringify(this.products));
 
-		this.cartNum = 0;
-		for(let i = 0; i< this.products.length; i++){
-			this.cartNum = this.products[i].quantity + this.cartNum;
-		}
-		this.cartNumberFunction();
+		this.cart.getCartQty(this.products);
+
+		// localStorage.setItem('productsData',JSON.stringify(this.products));
+
+		// this.cartNum = 0;
+		// for(let i = 0; i< this.products.length; i++){
+		// 	this.cartNum = this.products[i].quantity + this.cartNum;
+		// }
+		this.cart.cartNumberFunction(); 
+
 		
 	}
+
+	get Total(){
+		return this.products?.reduce(
+				(sum, x) => ({
+					quantity: 1,
+					price: sum.price + x.quantity * x.price
+				}),
+				{ quantity: 1, price: 0 }
+			).price
+	  }
 
 }
