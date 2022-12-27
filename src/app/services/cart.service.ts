@@ -32,9 +32,10 @@ export class CartService implements OnInit {
 
 	items: any = [];
 	productCount: any = 0;
-	emitQty = new Subject<any>();
 
 	cartSubject = new Subject<any>();
+	emitAmt = new Subject<any>();
+
 
 
 	constructor(private http: HttpClient, private apollo: Apollo) { }

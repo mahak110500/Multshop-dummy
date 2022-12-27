@@ -33,6 +33,11 @@ export class ShoppingCartComponent implements OnInit {
 			this.products.forEach(item => {
 				this.cartTotal += (item.quantity*item.price)
 			});
+			// console.log(this.cartTotal);
+
+		// this.cart.emitAmt.next(this.cartTotal);
+
+			
 		})
 
 		// this.cart.getCartProductData();

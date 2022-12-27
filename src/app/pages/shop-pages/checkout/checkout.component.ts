@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CartService } from 'src/app/services/cart.service';
 
 
 @Component({
@@ -10,17 +11,20 @@ import { Router } from '@angular/router';
 })
 export class CheckoutComponent implements OnInit {
 	checkoutform: any;
-	show: boolean
+	show: boolean;
+	cartAmt:any;
 
-
-
-	constructor(
-		private router: Router
-	) { }
+	constructor(private router: Router,private cart: CartService) { }
 
 	ngOnInit(): void {
-		this.show = false;
 
+		// this.cart.emitAmt.subscribe(res => {
+		// 	this.cartAmt = res;
+		// 	console.log(this.cartAmt);
+			
+		// })
+
+		this.show = false;
 
 		this.checkoutform = new FormGroup({
 			checkoutInfo: new FormGroup({
