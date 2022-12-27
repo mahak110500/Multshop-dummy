@@ -34,7 +34,7 @@ export class CartService implements OnInit {
 	productCount: any = 0;
 
 	cartSubject = new Subject<any>();
-	emitAmt = new Subject<any>();
+	cartAmount = new Subject<any>();
 
 
 
@@ -88,8 +88,6 @@ export class CartService implements OnInit {
 
 
 
-
-
 	getProducts() {
 		return this.productList.asObservable();
 	}
@@ -123,9 +121,10 @@ export class CartService implements OnInit {
 				productTotal: product.total,
 				price: product.prodAmount,
 				productVariantId: product.variantId
-
+				
 			})
 		}
+		
 
 		// console.log(this.cartItemList);
 
@@ -167,30 +166,23 @@ export class CartService implements OnInit {
 	cartNumberFunction(){
 		var cartValue = JSON.parse(localStorage.getItem('productsData'));
 		this.cartNumber = cartValue.length;
-		console.log(this.cartNumber);
+		// console.log(this.cartNumber);
 		
 		this.cartSubject.next(this.cartNum);
 	}
 	
 	cartNum: any = 0;
 	getCartQty(product:any){
-		console.log(product);
-
 		this.cartNum =0; 
 		for(let i = 0; i< product.length; i++){
 			this.cartNum = product[i].quantity + this.cartNum;
 		}
-		console.log(this.cartNum);
-		
+		// console.log(this.cartNum);
 		
 		// console.log(this.cartNum); //total qty of products in the cart after doing increment
 		localStorage.setItem('productsData', JSON.stringify(product));
 		
-
 	}
-
-	
-
 
 	
 

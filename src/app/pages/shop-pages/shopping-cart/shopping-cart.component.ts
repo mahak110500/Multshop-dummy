@@ -32,17 +32,11 @@ export class ShoppingCartComponent implements OnInit {
 				this.products = data;
 			}
 			
-			this.products.forEach(item => {
-				this.cartTotal += (item.quantity*item.price)
-			});
-			// console.log(this.cartTotal);
+			// this.products.forEach(item => {
+			// 	this.cartTotal += (item.quantity*item.price)
+			// });
 
-		// this.cart.emitAmt.next(this.cartTotal);
-
-			
-		})
-
-		// this.cart.getCartProductData();
+		});
 	
 	}
 
@@ -52,18 +46,16 @@ export class ShoppingCartComponent implements OnInit {
 		let res = this.cart.removeCartItem(item,this.products);
 		console.log(res);
 
-		this.cartNum = 0;
-		this.products = res;
-		for (let i = 0; i < this.products.length; i++) {
-			this.cartNum = this.products[i].quantity + this.cartNum
-		} 
+		// this.cartNum = 0;
+		// this.products = res;
+		// for (let i = 0; i < this.products.length; i++) {
+		// 	this.cartNum = this.products[i].quantity + this.cartNum
+		// } 
 
+		this.cart.getCartQty(this.products);
 		this.cart.cartNumberFunction(); 
 
-
 	}
-
-	
 
 	onIncrement(productId, quantity) {
 		
@@ -111,18 +103,20 @@ export class ShoppingCartComponent implements OnInit {
 		// 	this.cartNum = this.products[i].quantity + this.cartNum;
 		// }
 		this.cart.cartNumberFunction(); 
-
 		
 	}
 
+
+	//for getting cart summary amount
 	get Total(){
 		return this.products?.reduce(
-				(sum, x) => ({
-					quantity: 1,
-					price: sum.price + x.quantity * x.price
-				}),
-				{ quantity: 1, price: 0 }
-			).price
-	  }
+			(sum, x) => ({
+				quantity: 1,
+				price: sum.price + x.quantity * x.price
+			}),
+			{ quantity: 1, price: 0 }
+		).price
+
+	}
 
 }

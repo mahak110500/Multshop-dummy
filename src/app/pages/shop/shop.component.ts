@@ -18,9 +18,9 @@ export class ShopComponent implements OnInit {
 
 	allProducts: any;
 	productAddedList: any[];
+	cartNumber: number = 0;
 
 	rating: any;
-
 	form: FormGroup;
 
 	// product: Observable<Products[]>;
@@ -70,27 +70,32 @@ export class ShopComponent implements OnInit {
 
 				})
 
-		let data = JSON.parse(localStorage.getItem('productsData'));  //object of products getting added to shopping cart and stored in localstorage
-		// console.log(data);
+		this.cart.getProducts().subscribe(res => {
+			this.products = res;
 
-		if (this.products == '') {
-			this.products = data;
-		}
-		console.log(this.products);
+			let data = JSON.parse(localStorage.getItem('productsData'));  //object of products getting added to shopping cart and stored in localstorage
+			
+			if (this.products == '') {
+				this.products = data;
+			}
+		})
+
+		
 		
 	}
 
 	addToCart(item: any) {
 		this.cart.addCart(item);
+
+		this.cart.getCartQty(this.products);
 		this.cart.cartNumberFunction();
 		// this.cart.getCartQty(this.products);
 		// console.log(this.products);
-		
 
 	}
 
 
-	cartNumber: number = 0;
+
 
 	// cartNumberFunction() {
 	// 	var cartValue = JSON.parse(localStorage.getItem('productsData'));

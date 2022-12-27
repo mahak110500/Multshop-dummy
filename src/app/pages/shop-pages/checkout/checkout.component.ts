@@ -12,17 +12,11 @@ import { CartService } from 'src/app/services/cart.service';
 export class CheckoutComponent implements OnInit {
 	checkoutform: any;
 	show: boolean;
-	cartAmt:any;
+	totalCartAmount:number;
 
 	constructor(private router: Router,private cart: CartService) { }
 
 	ngOnInit(): void {
-
-		// this.cart.emitAmt.subscribe(res => {
-		// 	this.cartAmt = res;
-		// 	console.log(this.cartAmt);
-			
-		// })
 
 		this.show = false;
 
