@@ -14,6 +14,7 @@ import { CartService } from 'src/app/services/cart.service';
 export class ShopComponent implements OnInit {
 	error: any;
 	product: any;
+	public products: any = [];
 
 	allProducts: any;
 	productAddedList: any[];
@@ -21,7 +22,6 @@ export class ShopComponent implements OnInit {
 	rating: any;
 
 	form: FormGroup;
-
 
 	// product: Observable<Products[]>;
 
@@ -34,12 +34,12 @@ export class ShopComponent implements OnInit {
 
 	ngOnInit(): void {
 
-		
-			this.cart.displayProductList().valueChanges
+
+		this.cart.displayProductList().valueChanges
 			.subscribe(
 				({ data }) => {
 					// console.log(data);
-					
+
 					this.allProducts = data.products;
 					this.allProducts = this.allProducts.edges;
 
@@ -70,9 +70,6 @@ export class ShopComponent implements OnInit {
 					});
 
 				})
-		
-		//for displaying total product count in header cart
-		this.cart.totalItemsCount(this.cart.productCount);		
 
 	}
 
@@ -81,16 +78,15 @@ export class ShopComponent implements OnInit {
 		this.cartNumberFunction();
 	}
 
-	cartNumber:number = 0;
-	cartNumberFunction(){
+	cartNumber: number = 0;
+	cartNumberFunction() {
 		var cartValue = JSON.parse(localStorage.getItem('productsData'));
 		this.cartNumber = cartValue.length;
 
 		this.cart.cartSubject.next(this.cartNumber);
-		
+
 	}
 
-	
 }
 
 

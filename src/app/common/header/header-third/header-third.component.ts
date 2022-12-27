@@ -34,10 +34,20 @@ export class HeaderThirdComponent implements OnInit {
 
   cartItem:number = 0;
   cartItemFunction(){
+    // if(localStorage.getItem('productsData') != null){
+    //   var cartCount = JSON.parse(localStorage.getItem('productsData'));
+    //   this.cartItem = cartCount.length;
+    //   console.log(cartCount);
+      
+    // }
+
     if(localStorage.getItem('productsData') != null){
       var cartCount = JSON.parse(localStorage.getItem('productsData'));
-      this.cartItem = cartCount.length;
       console.log(cartCount);
+
+      for(let i=0; i<cartCount.length; i++){
+        this.cartItem = cartCount[i].quantity + this.cartItem
+      }
       
     }
   }
