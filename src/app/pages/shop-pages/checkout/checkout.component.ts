@@ -14,14 +14,13 @@ export class CheckoutComponent implements OnInit {
 	show: boolean;
 	totalCartAmount:number;
 	public products: any = [];
-
+	checkoutLineInput: any[];
 
 	constructor(private router: Router,private cart: CartService) { }
 
 	ngOnInit(): void {
 
 		this.cart.getProducts().subscribe(res => {
-			console.log(res);
 			
 			this.products = res;
 
@@ -29,7 +28,20 @@ export class CheckoutComponent implements OnInit {
 			
 			if (this.products == '') {
 				this.products = data;
+				console.log(data);
 			}
+
+			let linesInput = this.products.map(item => {
+				const itemQty = item.quantity;
+				const itemVariantId = item.productVariantId;
+				const itemPrice = item.price;
+	
+				return { itemQty, itemVariantId, itemPrice };
+			})
+
+			this.checkoutLineInput = linesInput;
+			console.log(this.checkoutLineInput);
+			
 		})
 
 		this.show = false;
@@ -46,19 +58,33 @@ export class CheckoutComponent implements OnInit {
 				city: new FormControl(null, Validators.required),
 				state: new FormControl(null, Validators.required),
 				zipCode: new FormControl(null, Validators.required,),
-
 			})
 		});
 	}
 
 
 	showDiv() {
-		// console.log(this.show);
 		this.show = !this.show;
 	}
 
 	onCheckOut(){
 		this.router.navigate(['/order-successful']);
+	}
+
+	onSubmit(){
+		console.warn(this.checkoutform.value);
+	}
+
+	//for getting cart summary amount
+	get Total(){
+		return this.products?.reduce(
+			(sum, x) => ({
+				quantity: 1,
+				price: sum.price + x.quantity * x.price
+			}),
+			{ quantity: 1, price: 0 }
+		).price
+
 	}
 
 
