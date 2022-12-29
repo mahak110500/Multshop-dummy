@@ -47,7 +47,6 @@ export class AuthComponent implements OnInit {
 		  })
 	}
 
-	
 
 	onSubmit(authForm:NgForm) {
 		this.authForm = authForm.value;
@@ -56,7 +55,7 @@ export class AuthComponent implements OnInit {
 			console.log(data);
 			this.allUsers = data;
 			// this.router.navigate(['/home']);
-			window.alert("You've signed-up successfully.Now login!")
+			window.alert("You've signed-up successfully.Proceed for login!")
 			
 		})
 	

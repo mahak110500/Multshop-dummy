@@ -1,9 +1,6 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, catchError, throwError } from "rxjs";
 import { Apollo, gql } from 'apollo-angular';
-import { NgForm } from "@angular/forms";
-import { Token } from "graphql";
 
 
 export interface AuthResponseData {
@@ -33,7 +30,6 @@ export class AuthService {
 	signUp(formData) {
 		this.authForm = formData;
 		console.log(this.authForm);
-
 
 		return this.apollo.mutate({
 			mutation: gql`

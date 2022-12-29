@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
+import { CheckoutService } from 'src/app/services/checkout.service';
 
 
 @Component({
@@ -16,7 +17,12 @@ export class CheckoutComponent implements OnInit {
 	public products: any = [];
 	checkoutLineInput: any[];
 
-	constructor(private router: Router,private cart: CartService) { }
+	finalData = {};
+	// checkoutForm: any = {}
+	checkoutUsersData:any;
+
+
+	constructor(private router: Router,private cart: CartService, private checkoutService:CheckoutService) { }
 
 	ngOnInit(): void {
 
@@ -57,23 +63,67 @@ export class CheckoutComponent implements OnInit {
 				country: new FormControl(null, Validators.required),
 				city: new FormControl(null, Validators.required),
 				state: new FormControl(null, Validators.required),
-				zipCode: new FormControl(null, Validators.required,),
+				zipCode: new FormControl(null, Validators.required,)
 			})
 		});
+		// let AddressInput = this.checkoutInfo.value
+
 	}
+
+	// saveData(checkoutform:NgForm){
+	// 	this.checkoutform = checkoutform.value;
+
+	// 	const addressInput = Object.assign(this.finalData, checkoutform.value);
+		
+	// 	Object.keys(addressInput).forEach(function (key){
+	// 		// console.log(addressInput[key]);
+	// 		const result = [
+	// 			{
+	// 				'firstName':addressInput[key].firstName,
+	// 				'lastName':addressInput[key].lastName,
+	// 				'streetAddress1':addressInput[key].address1,				
+	// 				'streetAddress2':addressInput[key].address2,
+	// 				'city':addressInput[key].city,
+	// 				'postalCode':addressInput[key].zipCode,
+	// 				'country':addressInput[key].country,
+	// 				'phone':addressInput[key].mobileNo,
+	// 			}
+	// 		]
+	// 		console.log(result);
+			
+	// 	});
+	// }
 
 
 	showDiv() {
 		this.show = !this.show;
 	}
 
-	onCheckOut(){
-		this.router.navigate(['/order-successful']);
+	onCheckOut(checkoutform:NgForm){
+		this.checkoutform = checkoutform.value;
+		
+
+		this.checkoutService.onCheckout(this.checkoutform).subscribe(data => {
+			console.log(data); 
+			this.checkoutUsersData = this.checkoutform.patchValue(data);
+
+			this.router.navigate(['/order-successful']);
+			
+		})
+
+
+		
+		// console.warn(this.checkoutform.value);
+		// this.router.navigate(['/order-successful']);
+		// this.saveData(this.checkoutform);
+
 	}
 
-	onSubmit(){
-		console.warn(this.checkoutform.value);
-	}
+
+	// onSubmit(){
+	// 	console.warn(this.checkoutform.value);
+	// }
+
 
 	//for getting cart summary amount
 	get Total(){
