@@ -12,7 +12,7 @@ export class CheckoutService{
 	public products: any = [];
 	checkoutLineInput: any[];
 	finalData = {};
-    checkoutAddressInputs = {};
+    checkoutAddressInputs: any[];
 
     
 
@@ -46,33 +46,32 @@ export class CheckoutService{
 
     onCheckout(checkoutData){
         this.checkoutform = checkoutData;
-        // console.log(this.checkoutform);
 
 		const addressInput = Object.assign(this.finalData, this.checkoutform);
-        
+		// console.log(addressInput); //object
+		
 
-        // let iterableInputs = Object.keys(addressInput).forEach(function (key){
-		// 	// console.log(addressInput[key]);
-		// 	const result = [
-		// 		{
-		// 			'firstName':addressInput[key].firstName,
-		// 			'lastName':addressInput[key].lastName,
-		// 			'streetAddress1':addressInput[key].address1,				
-		// 			'streetAddress2':addressInput[key].address2,
-		// 			'city':addressInput[key].city,
-		// 			'postalCode':addressInput[key].zipCode,
-		// 			'country':addressInput[key].country,
-		// 			'phone':addressInput[key].mobileNo,
-                    
-		// 		}
-            
-		// 	]
-		// 	console.log(result);
+        let iterableInputs = Object.keys(addressInput).forEach(function (key){
+			// console.log(addressInput[key]);
+			const result = [
+				{
+					'firstName':addressInput[key].firstName,
+					'lastName':addressInput[key].lastName,
+					'streetAddress1':addressInput[key].address1,				
+					'streetAddress2':addressInput[key].address2,
+					'city':addressInput[key].city,
+					'postalCode':addressInput[key].zipCode,
+					'country':addressInput[key].country,
+					'phone':addressInput[key].mobileNo,
+				}
+			]
+			// console.log(result); //object inside array
+			 return result;
            
-		// });
-
-        // let checkoutAddressInputs = iterableInputs;
-        // console.log(checkoutAddressInputs);
+		});
+		
+        let checkoutAddressInputs = iterableInputs;
+        console.log(checkoutAddressInputs); 
 
         return this.apollo.mutate({
 			mutation:  gql`
@@ -110,7 +109,9 @@ export class CheckoutService{
     //     this.checkoutform = checkoutData;
     //     console.log(this.checkoutform);
 
-	// 	const addressInput = Object.assign(this.finalData, this.checkoutform.value);
+	// 	const addressInput = Object.assign(this.finalData, this.checkoutform);
+	// 	console.log(addressInput);
+		
 
     //     let iterableInputs = Object.keys(addressInput).forEach(function (key){
 	// 		// console.log(addressInput[key]);
@@ -124,11 +125,10 @@ export class CheckoutService{
 	// 				'postalCode':addressInput[key].zipCode,
 	// 				'country':addressInput[key].country,
 	// 				'phone':addressInput[key].mobileNo,
-                    
 	// 			}
-            
 	// 		]
 	// 		console.log(result);
+	// 		return result;
            
 	// 	});
 

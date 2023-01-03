@@ -28,7 +28,7 @@ export class AuthService {
 	constructor(private http: HttpClient, private apollo: Apollo) { }
 
 	signUp(formData) {
-		this.authForm = formData;
+		this.authForm = formData; 
 		console.log(this.authForm);
 
 		return this.apollo.mutate({

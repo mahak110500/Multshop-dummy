@@ -46,7 +46,7 @@ export class CheckoutComponent implements OnInit {
 			})
 
 			this.checkoutLineInput = linesInput;
-			console.log(this.checkoutLineInput);
+			console.log(this.checkoutLineInput); 
 			
 		})
 
@@ -99,22 +99,18 @@ export class CheckoutComponent implements OnInit {
 		this.show = !this.show;
 	}
 
-	onCheckOut(checkoutform:NgForm){
+	onCheckOut(checkoutform:any){
 		this.checkoutform = checkoutform.value;
-		
+		// console.log(this.checkoutform);
 
 		this.checkoutService.onCheckout(this.checkoutform).subscribe(data => {
-			console.log(data); 
-			this.checkoutUsersData = this.checkoutform.patchValue(data);
+			console.log(data);  
+			this.checkoutUsersData = data;
 
-			this.router.navigate(['/order-successful']);
+			// this.router.navigate(['/order-successful']);
 			
 		})
 
-
-		
-		// console.warn(this.checkoutform.value);
-		// this.router.navigate(['/order-successful']);
 		// this.saveData(this.checkoutform);
 
 	}
