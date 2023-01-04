@@ -42,7 +42,7 @@ export class AuthComponent implements OnInit {
 			}
 			else {
 				this.isLoginMode = false;
-			}
+			} 
 
 		  })
 	}

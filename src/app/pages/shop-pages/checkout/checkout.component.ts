@@ -12,13 +12,13 @@ import { CheckoutService } from 'src/app/services/checkout.service';
 })
 export class CheckoutComponent implements OnInit {
 	checkoutform: any;
+	checkoutform1: any;
 	show: boolean;
 	totalCartAmount:number;
 	public products: any = [];
-	checkoutLineInput: any[];
+	checkoutLineInput: any[]; 
 
 	finalData = {};
-	// checkoutForm: any = {}
 	checkoutUsersData:any;
 
 
@@ -46,7 +46,7 @@ export class CheckoutComponent implements OnInit {
 			})
 
 			this.checkoutLineInput = linesInput;
-			console.log(this.checkoutLineInput); 
+			// console.log(this.checkoutLineInput); 
 			
 		})
 
@@ -63,7 +63,7 @@ export class CheckoutComponent implements OnInit {
 				country: new FormControl(null, Validators.required),
 				city: new FormControl(null, Validators.required),
 				state: new FormControl(null, Validators.required),
-				zipCode: new FormControl(null, Validators.required,)
+				zipCode: new FormControl(null, Validators.required)
 			})
 		});
 		// let AddressInput = this.checkoutInfo.value
@@ -99,19 +99,19 @@ export class CheckoutComponent implements OnInit {
 		this.show = !this.show;
 	}
 
-	onCheckOut(checkoutform:any){
-		this.checkoutform = checkoutform.value;
-		// console.log(this.checkoutform);
+	onCheckOut(checkoutData:any){
+		this.checkoutform1 = checkoutData;
+		console.log(this.checkoutform1);
+
+		this.checkoutService.onSubscribing(this.checkoutform1);
 
 		this.checkoutService.onCheckout(this.checkoutform).subscribe(data => {
 			console.log(data);  
 			this.checkoutUsersData = data;
-
-			// this.router.navigate(['/order-successful']);
 			
+			// this.checkoutUsersData = JSON.parse(JSON.stringify(data))
+			// this.router.navigate(['/order-successful']);
 		})
-
-		// this.saveData(this.checkoutform);
 
 	}
 
@@ -121,7 +121,10 @@ export class CheckoutComponent implements OnInit {
 	// }
 
 
+
 	//for getting cart summary amount
+	
+	
 	get Total(){
 		return this.products?.reduce(
 			(sum, x) => ({

@@ -18,7 +18,7 @@ export interface AuthResponseData {
 })
 
 export class AuthService {
-
+ 
 	authForm: any;
 	loginForm: any;
 
