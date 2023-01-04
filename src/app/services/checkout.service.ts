@@ -64,7 +64,7 @@ export class CheckoutService{
 			streetAddress2: new FormControl(this.checkoutform.address2, Validators.required),
 			city: new FormControl(this.checkoutform.city, Validators.required),
 			postalCode: new FormControl(this.checkoutform.zipCode, Validators.required),
-			country: new FormControl('IN', Validators.required),
+			country: new FormControl(this.checkoutform.country, Validators.required),
 			phone: new FormControl(this.checkoutform.mobileNo, Validators.required),
 			companyName: new FormControl('xyz', Validators.required),
 			cityArea: new FormControl('London', Validators.required),
