@@ -71,12 +71,9 @@ export class CheckoutService{
 			countryArea: new FormControl('England', Validators.required),
 
 		});
-		// console.log(addressInputGroup); 
 
 		let objAddress = addressInputGroup.value;
-		// console.log(objAddress);
 		
-
 
         return this.apollo.mutate({
 			mutation:  gql`
@@ -111,10 +108,10 @@ export class CheckoutService{
     }
 
 	onSubscribing(data:any){
-		// console.log(data);
-		// this.onCheckout(data).subscribe(res =>{
-		// 	console.log(res);
-		// })
+		console.log(data);
+		this.onCheckout(data).subscribe(res =>{
+			console.log(res);
+		})
 	}
 
     // saveData(checkoutData){

@@ -105,15 +105,17 @@ export class CheckoutComponent implements OnInit {
 
 		this.checkoutService.onSubscribing(this.checkoutform1);
 
-		this.checkoutService.onCheckout(this.checkoutform).subscribe(data => {
-			console.log(data);  
-			this.checkoutUsersData = data;
+		// this.checkoutService.onCheckout(this.checkoutform).subscribe(data => {
+		// 	console.log(data);  
+		// 	this.checkoutUsersData = data;
 			
-			// this.checkoutUsersData = JSON.parse(JSON.stringify(data))
-			// this.router.navigate(['/order-successful']);
-		})
+		// 	// this.checkoutUsersData = JSON.parse(JSON.stringify(data))
+		// 	// this.router.navigate(['/order-successful']);
+		// })
 
 	}
+
+	
 
 
 	// onSubmit(){
@@ -123,8 +125,6 @@ export class CheckoutComponent implements OnInit {
 
 
 	//for getting cart summary amount
-	
-	
 	get Total(){
 		return this.products?.reduce(
 			(sum, x) => ({
