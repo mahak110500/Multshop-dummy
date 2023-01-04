@@ -56,14 +56,17 @@ export class CheckoutComponent implements OnInit {
 			checkoutInfo: new FormGroup({
 				firstName: new FormControl(null, Validators.required),
 				lastName: new FormControl(null, Validators.required),
-				mobileNo: new FormControl(null, Validators.required),
-				email: new FormControl(null, [Validators.required, Validators.email]),
+				companyName: new FormControl('xyz', Validators.required),
 				address1: new FormControl(null, Validators.required),
 				address2: new FormControl(null, Validators.required),
-				country: new FormControl(null, Validators.required),
 				city: new FormControl(null, Validators.required),
+				cityArea: new FormControl('London', Validators.required),
+				zipCode: new FormControl(null, Validators.required),
+				mobileNo: new FormControl(null, Validators.required),
+				country: new FormControl(null, Validators.required),
+				countryArea: new FormControl('England', Validators.required),
+				email: new FormControl(null, [Validators.required, Validators.email]),
 				state: new FormControl(null, Validators.required),
-				zipCode: new FormControl(null, Validators.required)
 			})
 		});
 		// let AddressInput = this.checkoutInfo.value
@@ -115,7 +118,7 @@ export class CheckoutComponent implements OnInit {
 
 	}
 
-	
+
 
 
 	// onSubmit(){

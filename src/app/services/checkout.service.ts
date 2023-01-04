@@ -60,19 +60,21 @@ export class CheckoutService{
 		{
 			firstName: new FormControl(this.checkoutform.firstName, Validators.required),
 			lastName: new FormControl(this.checkoutform.lastName, Validators.required),
+			companyName: new FormControl('xyz', Validators.required),
 			streetAddress1: new FormControl(this.checkoutform.address1, Validators.required),
 			streetAddress2: new FormControl(this.checkoutform.address2, Validators.required),
 			city: new FormControl(this.checkoutform.city, Validators.required),
+			cityArea: new FormControl('London', Validators.required),
 			postalCode: new FormControl(this.checkoutform.zipCode, Validators.required),
 			country: new FormControl(this.checkoutform.country, Validators.required),
-			phone: new FormControl(this.checkoutform.mobileNo, Validators.required),
-			companyName: new FormControl('xyz', Validators.required),
-			cityArea: new FormControl('London', Validators.required),
 			countryArea: new FormControl('England', Validators.required),
+			phone: new FormControl(this.checkoutform.mobileNo, Validators.required),
 
 		});
 
 		let objAddress = addressInputGroup.value;
+		console.log(objAddress);
+		
 		
 
         return this.apollo.mutate({
