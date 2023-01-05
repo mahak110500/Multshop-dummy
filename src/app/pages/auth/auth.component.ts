@@ -45,6 +45,9 @@ export class AuthComponent implements OnInit {
 			} 
 
 		  })
+
+		this.authService.reloadSeller();
+		
 	}
 
 	onSubmit(authForm:NgForm) {
@@ -53,9 +56,8 @@ export class AuthComponent implements OnInit {
 		this.authService.signUp(this.authForm).subscribe(data => {
 			console.log(data);
 			this.allUsers = data;
-			// this.router.navigate(['/home']);
-			window.alert("You've signed-up successfully.Proceed for login!")
-			
+
+			window.alert("You've signed-up successfully.Proceed for login!");
 		})
 	
 	}
@@ -63,22 +65,31 @@ export class AuthComponent implements OnInit {
 
 	onSubmitLogin(loginForm: NgForm){
 		this.loginForm = loginForm.value;
-		
-		this.authService.login(this.loginForm).subscribe(data => {
-			this.allLoginUsers = data;
-			console.log(this.allLoginUsers);
 
-			localStorage.setItem('userData',JSON.stringify (this.allLoginUsers));
-			var currentUser = JSON.parse(localStorage.getItem('userData'));
+		this.authService.login(this.loginForm);
+		
+		// this.authService.login(this.loginForm).subscribe(data => {
+		// 	this.authService.isSellerLoggedIn.next(true);  //for authGuard
+
+		// 	this.allLoginUsers = data;
+
+		// 	localStorage.setItem('userData',JSON.stringify (this.allLoginUsers));
+		// 	var currentUser = JSON.parse(localStorage.getItem('userData'));
 			
+		// 	this.router.navigate(['/home']);
 			
-			this.router.navigate(['/home']);
-			
-		})
+		// }) 
 		
 		// var token = userData.token;
 			
 	}
+
+	// reloadSeller(){
+	// 	if(localStorage.getItem('userData')){
+	// 		this.authService.isSellerLoggedIn.next(true);  //for authGuard
+	// 		this.router.navigate(['/home']);
+	// 	}
+	// }
 
 	openLogin(){
 		this.isLoginMode = true;

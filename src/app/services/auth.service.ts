@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { Apollo, gql } from 'apollo-angular';
+import { BehaviorSubject } from "rxjs";
 
 
 export interface AuthResponseData {
@@ -21,11 +23,12 @@ export class AuthService {
  
 	authForm: any;
 	loginForm: any;
+	isSellerLoggedIn = new BehaviorSubject<boolean>(false);
 
     // user: any = new BehaviorSubject<User | null>(null);
 
 
-	constructor(private http: HttpClient, private apollo: Apollo) { }
+	constructor(private http: HttpClient, private apollo: Apollo, private router:Router) { }
 
 	signUp(formData) {
 		this.authForm = formData; 
@@ -57,7 +60,7 @@ export class AuthService {
 			}
 
 		})
-
+ 
 	}
 
 
@@ -65,8 +68,7 @@ export class AuthService {
 		this.loginForm = loginData;
 		console.log(this.loginForm);
 
-
-		return this.apollo.mutate({
+		 this.apollo.mutate({
 			mutation: gql`
 			mutation tokenCreate($email: String!, $password: String!){
 				tokenCreate(email: $email, password: $password) {
@@ -82,16 +84,29 @@ export class AuthService {
 				  }
 				}
 			  }
-			  
-		  `,
+		  	`,
 			variables: {
 				email: this.loginForm.email,
 				password: this.loginForm.password
 			}
 
-		})
+		}).subscribe((result) => {
+			this.isSellerLoggedIn.next(true);
+			localStorage.setItem('userData',JSON.stringify (result));
 
+			this.router.navigate(['/home']);
+
+		})
 	}
+
+
+	reloadSeller(){
+		if(localStorage.getItem('userData')){
+			this.isSellerLoggedIn.next(true);
+			this.router.navigate(['/home']);
+		}
+	}
+
 
 	private handleAuthentication(email: string, userId: string, token: string) {
         // const user = new User(

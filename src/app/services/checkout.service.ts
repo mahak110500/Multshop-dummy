@@ -24,33 +24,7 @@ export class CheckoutService{
 
     constructor(private apollo: Apollo, private cart:CartService,private fb: FormBuilder){}
 
-    ngOnInit(){
-
-        // this.cart.getProducts().subscribe(res => {
-			
-		// 	this.products = res;
-
-		// 	let data = JSON.parse(localStorage.getItem('productsData'));  //object of products getting added to shopping cart and stored in localstorage
-			
-		// 	if (this.products == '') {
-		// 		this.products = data;
-		// 		console.log(data);
-		// 	}
-
-		// 	let linesInput = this.products.map(item => {
-		// 		const itemQty = item.quantity;
-		// 		const itemVariantId = item.productVariantId;
-		// 		const itemPrice = item.price;
-	
-		// 		return { itemQty, itemVariantId, itemPrice };
-		// 	})
-
-		// 	this.checkoutLineInput = linesInput;
-		// 	console.log(linesInput);
-			
-		// });
-
-    }
+    ngOnInit(){}
 
 	getLineInput(){
 		
@@ -61,11 +35,11 @@ export class CheckoutService{
 			}
 
 			let linesInput = this.products.map(item => {
+				
 				const quantity = item.quantity;
 				const variantId = item.productVariantId;
-				const price = item.price;
 
-				return {quantity, variantId, price};
+				return {quantity, variantId};
 			})
 
 			this.checkoutLineInput = linesInput;
@@ -75,9 +49,8 @@ export class CheckoutService{
 
     onCheckout(checkoutFormData){
 		this.checkoutform = checkoutFormData.value.checkoutInfo;
-		// console.log(this.checkoutform);
 
-		console.log(this.checkoutLineInput);
+		// console.log(this.checkoutLineInput);
 		
 
 		let addressInputGroup = new FormGroup(
@@ -96,7 +69,6 @@ export class CheckoutService{
 		});
 
 		let objAddress = addressInputGroup.value;
-		// console.log(objAddress);
 		
 
         return this.apollo.mutate({
@@ -131,11 +103,11 @@ export class CheckoutService{
 		});
     }
 
-	onSubscribing(data:any){
-		this.onCheckout(data).subscribe(res =>{
-			console.log(res);
-		})
-	}
+	// onSubscribing(data:any){
+	// 	this.onCheckout(data).subscribe(res =>{
+	// 		console.log(res);
+	// 	})
+	// }
 
     // saveData(checkoutData){
     //     this.checkoutform = checkoutData;

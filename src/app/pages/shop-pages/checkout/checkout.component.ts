@@ -104,27 +104,21 @@ export class CheckoutComponent implements OnInit {
 
 	onCheckOut(checkoutData:any){
 		this.checkoutform1 = checkoutData;
-		console.log(this.checkoutform1);
 
-		this.checkoutService.onSubscribing(this.checkoutform1);
+		// this.checkoutService.onSubscribing(this.checkoutform1);
 
-		// this.checkoutService.onCheckout(this.checkoutform).subscribe(data => {
-		// 	console.log(data);  
-		// 	this.checkoutUsersData = data;
+		this.checkoutService.onCheckout(this.checkoutform1).subscribe(data => {
+			this.checkoutUsersData = data;
+			console.log(this.checkoutUsersData);
 			
-		// 	// this.checkoutUsersData = JSON.parse(JSON.stringify(data))
-		// 	// this.router.navigate(['/order-successful']);
-		// })
-
+			this.router.navigate(['/order-successful']);
+		})
 	}
-
-
 
 
 	// onSubmit(){
 	// 	console.warn(this.checkoutform.value);
 	// }
-
 
 
 	//for getting cart summary amount
