@@ -34,7 +34,7 @@ export class CheckoutComponent implements OnInit {
 			
 			if (this.products == '') {
 				this.products = data;
-				console.log(data);
+				// console.log(data);
 			}
 
 			let linesInput = this.products.map(item => {
@@ -62,7 +62,6 @@ export class CheckoutComponent implements OnInit {
 				city: new FormControl(null, Validators.required),
 				cityArea: new FormControl('London', Validators.required),
 				zipCode: new FormControl(null, Validators.required),
-				mobileNo: new FormControl(null, Validators.required),
 				country: new FormControl(null, Validators.required),
 				countryArea: new FormControl('England', Validators.required),
 				email: new FormControl(null, [Validators.required, Validators.email]),
@@ -71,6 +70,7 @@ export class CheckoutComponent implements OnInit {
 		});
 		// let AddressInput = this.checkoutInfo.value
 
+		this.checkoutService.onSubmission();
 	}
 
 	// saveData(checkoutform:NgForm){

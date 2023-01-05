@@ -28,7 +28,7 @@ export class CartService implements OnInit {
 	public cartItemList: any = []
 	public productList = new BehaviorSubject<any>([]);
 
-	checkoutLineInputs: any[];
+	CheckoutLineInput: any[];
 
 	items: any = [];
 	productCount: any = 0;
@@ -129,19 +129,18 @@ export class CartService implements OnInit {
 		this.getTotalPrice();
 
 		let linesInput = this.cartItemList.map(item => {
-			const itemQty = item.quantity;
-			const itemVariantId = item.variantId;
-			const itemPrice = item.prodAmount;
+			const quantity = item.quantity;
+			const variantId = item.variantId;
+			const price = item.prodAmount;
 
-			return { itemQty, itemVariantId, itemPrice };
+			return { quantity, variantId, price };
 		})
 
-		this.checkoutLineInputs = linesInput;
+		this.CheckoutLineInput = linesInput;
 		// console.log(this.checkoutLineInputs);
 
 		localStorage.setItem('productsData', JSON.stringify(this.cartItemList));
 		var productData = JSON.parse(localStorage.getItem('productsData'));
-
 
 	}
 
@@ -177,7 +176,6 @@ export class CartService implements OnInit {
 		localStorage.setItem('productsData', JSON.stringify(product));
 		
 	}
-
 	
 
 	removeCartItem(product:any,data){

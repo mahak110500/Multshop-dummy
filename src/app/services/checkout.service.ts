@@ -25,31 +25,53 @@ export class CheckoutService{
     constructor(private apollo: Apollo, private cart:CartService,private fb: FormBuilder){}
 
     ngOnInit(){
-        this.cart.getProducts().subscribe(res => {
-			
-			this.products = res;
 
+        // this.cart.getProducts().subscribe(res => {
+			
+		// 	this.products = res;
+
+		// 	let data = JSON.parse(localStorage.getItem('productsData'));  //object of products getting added to shopping cart and stored in localstorage
+			
+		// 	if (this.products == '') {
+		// 		this.products = data;
+		// 		console.log(data);
+		// 	}
+
+		// 	let linesInput = this.products.map(item => {
+		// 		const itemQty = item.quantity;
+		// 		const itemVariantId = item.productVariantId;
+		// 		const itemPrice = item.price;
+	
+		// 		return { itemQty, itemVariantId, itemPrice };
+		// 	})
+
+		// 	this.checkoutLineInput = linesInput;
+		// 	console.log(linesInput);
+			
+		// });
+
+    }
+
+	onSubmission(){
+		
 			let data = JSON.parse(localStorage.getItem('productsData'));  //object of products getting added to shopping cart and stored in localstorage
 			
 			if (this.products == '') {
 				this.products = data;
-				console.log(data);
 			}
 
 			let linesInput = this.products.map(item => {
-				const itemQty = item.quantity;
-				const itemVariantId = item.productVariantId;
-				const itemPrice = item.price;
-	
-				return { itemQty, itemVariantId, itemPrice };
+				const quantity = item.quantity;
+				const variantId = item.productVariantId;
+				const price = item.price;
+
+				return { quantity, variantId, price };
 			})
 
 			this.checkoutLineInput = linesInput;
-			console.log(linesInput);
+			console.log(this.checkoutLineInput);
 			
-		});
-
-    }
+	}
 
     onCheckout(checkoutFormData){
 		this.checkoutform = checkoutFormData.value.checkoutInfo;
@@ -67,8 +89,7 @@ export class CheckoutService{
 			cityArea: new FormControl('London', Validators.required),
 			postalCode: new FormControl(this.checkoutform.zipCode, Validators.required),
 			country: new FormControl(this.checkoutform.country, Validators.required),
-			countryArea: new FormControl('England', Validators.required),
-			phone: new FormControl(this.checkoutform.mobileNo, Validators.required),
+			countryArea: new FormControl('CA', Validators.required),
 
 		});
 
@@ -95,7 +116,7 @@ export class CheckoutService{
 				"input": {
                     channel: "default-channel",
                     email: this.checkoutform.email,
-                    lines: [{ quantity: 1, variantId: "UHJvZHVjdFZhcmlhbnQ6Mjk3" }],
+                    lines: this.checkoutLineInput,
                     shippingAddress: objAddress,
      				billingAddress: objAddress,
 					languageCode: "EN",
