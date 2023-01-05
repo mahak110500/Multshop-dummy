@@ -69,7 +69,7 @@
                             <select class="custom-select" formControlName="country">
                                 <option selected>IN</option>
                                 <option>DJ</option>
-                                <option>HR</option>
+                                <option>US</option>
                                 <option>PL</option>
                             </select>
                             <span
@@ -79,17 +79,38 @@
                             </span>
                         </div>
                         <div class="col-md-6 form-group">
+                            <label>Country Area</label>
+                            <select class="custom-select" formControlName="countryArea">
+                                <option selected>CA</option>
+                                <option>MI</option>
+                                <option>AZ</option>
+                            </select>
+                            <span
+                                *ngIf="!checkoutform.get('checkoutInfo.countryArea').valid && checkoutform.get('checkoutInfo.countryArea').touched"
+                                class="help-block">
+                                *Please select your country area*
+                            </span>
+                        </div>
+                        <div class="col-md-6 form-group">
                             <label>City</label>
-                            <input class="form-control" type="text" placeholder="New York" formControlName="city">
+                            <select class="custom-select" formControlName="city">
+                                <option selected>Wroclaw</option>
+                                <option>Lanser</option>
+                                <option>Phoenix</option>
+                            </select>
                             <span
                                 *ngIf="!checkoutform.get('checkoutInfo.city').valid && checkoutform.get('checkoutInfo.city').touched"
                                 class="help-block">
-                                *Please enter your city*
+                                *Please select your city*
                             </span>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>State</label>
-                            <input class="form-control" type="text" placeholder="New York" formControlName="state">
+                            <select class="custom-select" formControlName="state">
+                                <option selected>Dolnyslask</option>
+                                <option>Michigan</option>
+                                <option>Arizona</option>
+                            </select>
                             <span
                                 *ngIf="!checkoutform.get('checkoutInfo.state').valid && checkoutform.get('checkoutInfo.state').touched"
                                 class="help-block">

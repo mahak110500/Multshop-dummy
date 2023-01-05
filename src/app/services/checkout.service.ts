@@ -52,7 +52,7 @@ export class CheckoutService{
 
     }
 
-	onSubmission(){
+	getLineInput(){
 		
 			let data = JSON.parse(localStorage.getItem('productsData'));  //object of products getting added to shopping cart and stored in localstorage
 			
@@ -65,7 +65,7 @@ export class CheckoutService{
 				const variantId = item.productVariantId;
 				const price = item.price;
 
-				return { quantity, variantId, price };
+				return {quantity, variantId, price};
 			})
 
 			this.checkoutLineInput = linesInput;
@@ -77,6 +77,8 @@ export class CheckoutService{
 		this.checkoutform = checkoutFormData.value.checkoutInfo;
 		// console.log(this.checkoutform);
 
+		console.log(this.checkoutLineInput);
+		
 
 		let addressInputGroup = new FormGroup(
 		{
@@ -89,13 +91,12 @@ export class CheckoutService{
 			cityArea: new FormControl('London', Validators.required),
 			postalCode: new FormControl(this.checkoutform.zipCode, Validators.required),
 			country: new FormControl(this.checkoutform.country, Validators.required),
-			countryArea: new FormControl('CA', Validators.required),
+			countryArea: new FormControl(this.checkoutform.countryArea, Validators.required),
 
 		});
 
 		let objAddress = addressInputGroup.value;
-		console.log(objAddress);
-		
+		// console.log(objAddress);
 		
 
         return this.apollo.mutate({
@@ -131,7 +132,6 @@ export class CheckoutService{
     }
 
 	onSubscribing(data:any){
-		console.log(data);
 		this.onCheckout(data).subscribe(res =>{
 			console.log(res);
 		})
