@@ -19,16 +19,23 @@ export class HeaderThirdComponent implements OnInit, OnDestroy {
 	isAuthenticated:boolean = false;
 	private userSub: Subscription = new Subscription;
 
+
 	constructor(private cart: CartService, private authService: AuthService ,private route:Router) { }
 
 	ngOnInit(): void {
 
+		// this.isAuthenticated= false;
+
 		//for navbar change
-			this.userSub = this.authService.isSellerLoggedIn.subscribe((user:any) => {
-				this.isAuthenticated = !!user; //outputs true
-				console.log(this.isAuthenticated);
-				
-			})
+		this.userSub = this.authService.isSellerLoggedIn.subscribe((user:any) => {
+			console.log(this.isAuthenticated);
+			this.isAuthenticated = !!user; //outputs true
+		})
+
+		let userToken =JSON.parse(localStorage.getItem('userData'))
+		if(userToken.data.tokenCreate.token) {
+			this.isAuthenticated= true;
+		}
 		
 
 		this.cart.cartSubject.subscribe(res => {
@@ -51,6 +58,8 @@ export class HeaderThirdComponent implements OnInit, OnDestroy {
 		// 	}
 		// })
 
+		
+
 	}
 
 	cartItemFunction() {
@@ -72,6 +81,8 @@ export class HeaderThirdComponent implements OnInit, OnDestroy {
 			// }
 		}
 	}
+
+	
 
 	ngOnDestroy(): void {
 		this.userSub.unsubscribe();

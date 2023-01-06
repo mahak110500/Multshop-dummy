@@ -19,13 +19,21 @@ export class HeaderFirstComponent implements OnInit {
 	constructor(private activatedRoute: ActivatedRoute, private route: Router, private authService: AuthService) { }
 
 	ngOnInit(): void {
-		this.userSub = this.authService.isSellerLoggedIn.subscribe((user: any) => {
-			this.isAuthenticated = !!user;
-			// console.log(this.isAuthenticated);
-		})
+			//for navbar change
+			this.userSub = this.authService.isSellerLoggedIn.subscribe((user:any) => {
+				this.isAuthenticated = !!user; //outputs true
+				console.log(this.isAuthenticated);
+			})
+	
+			let userToken =JSON.parse(localStorage.getItem('userData'))
+	
+			if(userToken.data.tokenCreate.token) {
+				this.isAuthenticated= true;
+			}
 	}
 
 	logout() {
+		this.authService.isSellerLoggedIn.next(false);
 		localStorage.removeItem('userData');
 		this.route.navigate(['/auth/login']);
 	}

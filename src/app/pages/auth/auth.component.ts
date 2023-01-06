@@ -41,9 +41,9 @@ export class AuthComponent implements OnInit {
 				this.isLoginMode = false;
 			} 
 
-		  })
+		})
 
-		this.authService.reloadSeller();
+		// this.authService.reloadSeller();
 		
 	}
 

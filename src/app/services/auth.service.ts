@@ -2,18 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject } from "rxjs";
-
-
-export interface AuthResponseData {
-	kind: string;
-	idToken: string;
-	email: string;
-	refreshToken: string;
-	expiresIn: string;
-	localId: string;
-	registered?: boolean;
-}
+import { BehaviorSubject, Subscription } from "rxjs";
 
 @Injectable({
 	providedIn: 'root'
@@ -23,7 +12,12 @@ export class AuthService {
  
 	authForm: any;
 	loginForm: any;
+
+	//for authguard and nav update
 	isSellerLoggedIn = new BehaviorSubject<boolean>(false);
+	
+	isAuthenticated:boolean = false;
+	private userSub: Subscription = new Subscription;
 
     // user: any = new BehaviorSubject<User | null>(null);
 
@@ -94,17 +88,32 @@ export class AuthService {
 			localStorage.setItem('userData',JSON.stringify (result));
 
 			this.router.navigate(['/home']);
-
 		})
 	}
 
 
-	reloadSeller(){
-		if(localStorage.getItem('userData')){
-			this.isSellerLoggedIn.next(true);
-			this.router.navigate(['/home']);
-		}
-	}
+	// //for navbar change
+	// updateNav(){
+		
+	// 	this.userSub = this.isSellerLoggedIn.subscribe((user:any) => {
+	// 		this.isAuthenticated = !!user; //outputs true
+	// 		console.log(this.isAuthenticated);
+	// 	})
+
+	// 	let userToken =JSON.parse(localStorage.getItem('userData'))
+
+	// 	if(userToken.data.tokenCreate.token) {
+	// 		this.isAuthenticated= true;
+	// 	}
+	// }
+
+
+	// reloadSeller(){ 
+	// 	if(localStorage.getItem('userData')){
+	// 		this.isSellerLoggedIn.next(true);
+	// 		this.router.navigate(['/home']);
+	// 	}
+	// }
 
 
 	private handleAuthentication(email: string, userId: string, token: string) {
