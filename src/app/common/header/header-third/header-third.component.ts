@@ -1,5 +1,5 @@
 import { ThisReceiver } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -10,9 +10,8 @@ import { CartService } from 'src/app/services/cart.service';
 	templateUrl: './header-third.component.html',
 	styleUrls: ['./header-third.component.css']
 })
-export class HeaderThirdComponent implements OnInit {
+export class HeaderThirdComponent implements OnInit, OnDestroy {
 	
-	menuType:string = "default";
 	public totalItem: number = 0;
 
 	cartItem: number = 0;
@@ -23,10 +22,10 @@ export class HeaderThirdComponent implements OnInit {
 	constructor(private cart: CartService, private authService: AuthService ,private route:Router) { }
 
 	ngOnInit(): void {
-		
+
 		//for navbar change
 			this.userSub = this.authService.isSellerLoggedIn.subscribe((user:any) => {
-				this.isAuthenticated = !!user;
+				this.isAuthenticated = !!user; //outputs true
 				console.log(this.isAuthenticated);
 				
 			})
@@ -74,6 +73,8 @@ export class HeaderThirdComponent implements OnInit {
 		}
 	}
 
-
+	ngOnDestroy(): void {
+		this.userSub.unsubscribe();
+	}
 
 }
