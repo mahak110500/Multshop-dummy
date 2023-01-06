@@ -11,7 +11,7 @@
         </div>
         <div class="col-lg-6 text-center text-lg-right">
             <div class="d-inline-flex align-items-center">
-                <div class="btn-group" dropdown>
+                <div class="btn-group" dropdown *ngIf="!isAuthenticated">
                     <button id="button-basic" 
                         dropdownToggle type="button" 
                         aria-controls="dropdown-basic"
@@ -21,7 +21,7 @@
                 </div>
                 &nbsp;
 
-                <div class="btn-group" dropdown>
+                <div class="btn-group" dropdown *ngIf="!isAuthenticated">
                     <button id="button-basic" 
                         dropdownToggle type="button" 
                         aria-controls="dropdown-basic"
@@ -31,10 +31,11 @@
                 </div>
                 &nbsp;
 
-                <div class="btn-group" dropdown>
+                <div class="btn-group" dropdown *ngIf="isAuthenticated">
                     <button id="button-basic" 
                         dropdownToggle type="button" 
                         aria-controls="dropdown-basic"
+                        (click)="logout()"
                         > 
                         Logout
                     </button>

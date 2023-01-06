@@ -60,7 +60,6 @@ export class AuthService {
 			}
 
 		})
- 
 	}
 
 
@@ -68,7 +67,7 @@ export class AuthService {
 		this.loginForm = loginData;
 		console.log(this.loginForm);
 
-		 this.apollo.mutate({
+		this.apollo.mutate({
 			mutation: gql`
 			mutation tokenCreate($email: String!, $password: String!){
 				tokenCreate(email: $email, password: $password) {
@@ -120,47 +119,5 @@ export class AuthService {
 
     }
 
-
-	// verifyUser(token: string) {
-
-	// 	return this.apollo.mutate({
-	// 		mutation: gql`
-    //             mutation tokenVerify($token: String!){
-    //                 tokenVerify(token: $token) {
-    //                   token: String!
-    //                 }
-    //               }
-	// 	  `,
-	// 		variables: {
-	// 			token: token
-	// 		}
-
-	// 	})
-
-	// }
-
-
-	// private handleErrors(errorRes:HttpErrorResponse){
-	//     let errorMessage = 'An unknown error occured';
-
-	//     if(!errorRes.error || !errorRes.error.error){
-	//         return throwError(errorMessage);
-	//     }
-	//     switch(errorRes.error.error.message){
-	//         case 'EMAIL_EXISTS':
-	//         errorMessage = 'This email already exists';
-	//         break;
-
-	//         case 'EMAIL_NOT_FOUND':
-	//         errorMessage = 'This email does not exists';
-	//         break;
-
-	//         case 'INVALID_PASSWORD':
-	//         errorMessage = 'This email already exists';
-	//         break;
-
-	//     }
-	//     return throwError(errorMessage);
-	// }
 
 }

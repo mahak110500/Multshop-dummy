@@ -12,16 +12,18 @@ import { ShoppingCartComponent } from './pages/shop-pages/shopping-cart/shopping
 import { ShopComponent } from './pages/shop/shop.component';
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/home', pathMatch: 'full' },
+	{ path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
 
   },
   {
     path: 'shop',
-    component: ShopComponent
+    component: ShopComponent,
+    canActivate: [AuthGuard]
+
   },
   {
     path: 'shop-detail',
@@ -31,15 +33,21 @@ const routes: Routes = [
   {
     path: 'shop-pages',
     component: ShopPagesComponent,
+    canActivate: [AuthGuard]
+
   },
   {
     path: 'shopping-cart',
-    component: ShoppingCartComponent
+    component: ShoppingCartComponent,
+    canActivate: [AuthGuard]
+
   },
  
   {
     path: 'checkout',
-    component: CheckoutComponent
+    component: CheckoutComponent,
+    canActivate: [AuthGuard]
+
   },
   {
     path: 'order-successful',

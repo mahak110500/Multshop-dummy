@@ -61,14 +61,14 @@
                     <div class="navbar-nav mr-auto py-0">
                         <!-- <a routerLinkActive="active" routerLink="/auth" class="nav-item nav-link ">Authenticate</a> -->
                         <a routerLinkActive="active" routerLink="/home" class="nav-item nav-link ">Home</a>
-                        <a routerLinkActive="active" routerLink="/shop" class="nav-item nav-link">Shop</a>
-                        <a routerLinkActive="active" routerLink="/shop-detail" class="nav-item nav-link">Shop Detail</a>
+                        <a routerLinkActive="active" routerLink="/shop" class="nav-item nav-link" *ngIf="isAuthenticated">Shop</a>
+                        <a routerLinkActive="active" routerLink="/shop-detail" class="nav-item nav-link" *ngIf="isAuthenticated">Shop Detail</a>
 
 
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown">
 
-                                <div class="btn-group" dropdown>
+                                <div class="btn-group" dropdown *ngIf="isAuthenticated">
                                     <a id="button-basic" 
                                         dropdownToggle type="button" 
                                         aria-controls="dropdown-basic"> 
@@ -92,12 +92,12 @@
                         <a routerLink="/contact" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                        <a href="" class="btn px-0">
+                        <a href="" class="btn px-0" *ngIf="isAuthenticated">
                             <i class="fa fa-heart" aria-hidden="true" style="color: white;font-size: 25px;"></i>&nbsp;
                             <span class="badge text-secondary border border-secondary rounded-circle"
                                 style="padding-bottom: 2px;"></span>
                         </a>
-                        <a routerLink="/shopping-cart" class="btn px-0 ml-3">
+                        <a routerLink="/shopping-cart" class="btn px-0 ml-3" *ngIf="isAuthenticated">
                             <i class="fa fa-shopping-cart" style="color: white; font-size: 25px;"></i>&nbsp;
                             <span class="badge text-secondary border border-secondary rounded-circle"
                                 style="padding-bottom: 2px;">{{cartItem}}</span>

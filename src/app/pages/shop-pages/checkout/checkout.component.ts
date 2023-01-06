@@ -112,6 +112,8 @@ export class CheckoutComponent implements OnInit {
 			console.log(this.checkoutUsersData);
 			
 			this.router.navigate(['/order-successful']);
+			localStorage.removeItem('productsData');
+
 		})
 	}
 

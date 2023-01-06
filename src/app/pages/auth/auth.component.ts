@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { User } from 'src/app/models/user.model';
-import { AutheService } from 'src/app/services/au-th.service';
-import { AuthResponseData, AuthService } from 'src/app/services/auth.service';
-import { Apollo, gql } from 'apollo-angular';
+import { AuthService } from 'src/app/services/auth.service';
+import { Apollo } from 'apollo-angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
@@ -83,13 +80,6 @@ export class AuthComponent implements OnInit {
 		// var token = userData.token;
 			
 	}
-
-	// reloadSeller(){
-	// 	if(localStorage.getItem('userData')){
-	// 		this.authService.isSellerLoggedIn.next(true);  //for authGuard
-	// 		this.router.navigate(['/home']);
-	// 	}
-	// }
 
 	openLogin(){
 		this.isLoginMode = true;
