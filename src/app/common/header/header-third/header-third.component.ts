@@ -28,14 +28,16 @@ export class HeaderThirdComponent implements OnInit, OnDestroy {
 
 		//for navbar change
 		this.userSub = this.authService.isSellerLoggedIn.subscribe((user:any) => {
+			console.log(user);
+			
 			console.log(this.isAuthenticated);
-			this.isAuthenticated = !!user; //outputs true
+			this.isAuthenticated = !user; //outputs true
 		})
 
-		let userToken =JSON.parse(localStorage.getItem('userData'))
-		if(userToken.data.tokenCreate.token) {
-			this.isAuthenticated= true;
-		}
+		// let userToken =JSON.parse(localStorage.getItem('userData'))
+		// if(userToken.data.tokenCreate.token) {
+		// 	this.isAuthenticated= true;
+		// }
 		
 
 		this.cart.cartSubject.subscribe(res => {

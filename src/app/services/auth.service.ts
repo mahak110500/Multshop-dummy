@@ -93,19 +93,23 @@ export class AuthService {
 
 
 	// //for navbar change
-	// updateNav(){
+	updateNav(){
 		
-	// 	this.userSub = this.isSellerLoggedIn.subscribe((user:any) => {
-	// 		this.isAuthenticated = !!user; //outputs true
-	// 		console.log(this.isAuthenticated);
-	// 	})
+		// this.userSub = this.isSellerLoggedIn.subscribe((user:any) => {
+		// 	this.isAuthenticated = !!user; //outputs true
+		// 	console.log(this.isAuthenticated);
+		// })
 
-	// 	let userToken =JSON.parse(localStorage.getItem('userData'))
+		let userToken =JSON.parse(localStorage.getItem('userData'))
 
-	// 	if(userToken.data.tokenCreate.token) {
-	// 		this.isAuthenticated= true;
-	// 	}
-	// }
+		if(userToken.data.tokenCreate.token) {
+			let userloggedIn = this.isSellerLoggedIn.next(true);
+			
+			return userloggedIn;
+		} else {
+			this.isSellerLoggedIn.next(false);
+		}
+	}
 
 
 	// reloadSeller(){ 
