@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { CartService } from 'src/app/services/cart.service';
 
+
 @Component({
 	selector: 'app-header-third',
 	templateUrl: './header-third.component.html',
@@ -17,50 +18,33 @@ export class HeaderThirdComponent implements OnInit, OnDestroy {
 	cartItem: number = 0;
 
 	isAuthenticated:boolean = false;
+
+	isUserAuthenticated:boolean = false;
 	private userSub: Subscription = new Subscription;
 
 
-	constructor(private cart: CartService, private authService: AuthService ,private route:Router) { }
+
+	constructor(private cart: CartService, private authService: AuthService ,private route:Router) {}
 
 	ngOnInit(): void {
-
-		// this.isAuthenticated= false;
+		this.authService.updateNav();
+		// this.onUpdateNav();
 
 		//for navbar change
 		this.userSub = this.authService.isSellerLoggedIn.subscribe((user:any) => {
-			console.log(user);
 			
+			this.isAuthenticated = !!user; //outputs true
 			console.log(this.isAuthenticated);
-			this.isAuthenticated = !user; //outputs true
 		})
 
-		// let userToken =JSON.parse(localStorage.getItem('userData'))
-		// if(userToken.data.tokenCreate.token) {
-		// 	this.isAuthenticated= true;
-		// }
+		this.isAuthenticated = this.authService.updateNav();
 		
 
+		//for no.of items present in cart
 		this.cart.cartSubject.subscribe(res => {
 			this.cartItem = res;
 		})
 		this.cartItemFunction();
-
-		// this.route.events.subscribe((val: any) => {
-		// 	console.log(val.url);
-		// 	if (val.url) {
-		// 		console.log(val.url);
-		// 		if(localStorage.getItem('userData') && val.url.includes('userData')){
-		// 			console.log('in seller area');
-		// 			this.menuType = "userData";
-		// 		}else{
-		// 			console.warn('outside seller area');
-		// 			this.menuType = "default";
-		// 		}
-
-		// 	}
-		// })
-
-		
 
 	}
 
@@ -84,6 +68,14 @@ export class HeaderThirdComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	onUpdateNav(){
+		let userToken =JSON.parse(localStorage.getItem('userData'));
+		if(userToken.data.tokenCreate.token != null){
+			 this.authService.headerSubject.subscribe(res => {
+				console.log(res);
+			 })
+		}
+	}
 	
 
 	ngOnDestroy(): void {

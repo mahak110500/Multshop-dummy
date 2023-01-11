@@ -1,31 +1,38 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, Subscription } from "rxjs";
+import { BehaviorSubject, Subject, Subscription } from "rxjs";
+import { User } from "../models/user.model";
 
 @Injectable({
 	providedIn: 'root'
 })
 
-export class AuthService {
- 
+export class AuthService implements OnInit {
+
 	authForm: any;
 	loginForm: any;
 
 	//for authguard and nav update
 	isSellerLoggedIn = new BehaviorSubject<boolean>(false);
-	
-	isAuthenticated:boolean = false;
+	headerSubject = new Subject<any>();
+
+	isAuthenticated: boolean = false;
 	private userSub: Subscription = new Subscription;
 
-    // user: any = new BehaviorSubject<User | null>(null);
+	// user: any = new BehaviorSubject<User | null>(null);
 
 
-	constructor(private http: HttpClient, private apollo: Apollo, private router:Router) { }
+
+	constructor(private http: HttpClient, private apollo: Apollo, private router: Router) { }
+
+	ngOnInit(): void {
+		this.updateNav();
+	}
 
 	signUp(formData) {
-		this.authForm = formData; 
+		this.authForm = formData;
 		console.log(this.authForm);
 
 		return this.apollo.mutate({
@@ -85,7 +92,7 @@ export class AuthService {
 
 		}).subscribe((result) => {
 			this.isSellerLoggedIn.next(true);
-			localStorage.setItem('userData',JSON.stringify (result));
+			localStorage.setItem('userData', JSON.stringify(result));
 
 			this.router.navigate(['/home']);
 		})
@@ -93,22 +100,15 @@ export class AuthService {
 
 
 	// //for navbar change
-	updateNav(){
-		
-		// this.userSub = this.isSellerLoggedIn.subscribe((user:any) => {
-		// 	this.isAuthenticated = !!user; //outputs true
-		// 	console.log(this.isAuthenticated);
-		// })
+	updateNav() {
+		let userToken = JSON.parse(localStorage.getItem('userData'));
 
-		let userToken =JSON.parse(localStorage.getItem('userData'))
-
-		if(userToken.data.tokenCreate.token) {
-			let userloggedIn = this.isSellerLoggedIn.next(true);
-			
-			return userloggedIn;
-		} else {
-			this.isSellerLoggedIn.next(false);
+		if (userToken != null) {
+			return true;
+		} else{
+			return false;
 		}
+
 	}
 
 
@@ -121,16 +121,16 @@ export class AuthService {
 
 
 	private handleAuthentication(email: string, userId: string, token: string) {
-        // const user = new User(
-        //     email,
-        //     userId,
-        //     token
-        // );
+		// const user = new User(
+		//     email,
+		//     userId,
+		//     token
+		// );
 
-        // this.user.next(user);
-        // localStorage.setItem('userData', JSON.stringify(user));
+		// this.user.next(user);
+		// localStorage.setItem('userData', JSON.stringify(user));
 
-    }
+	}
 
 
 }

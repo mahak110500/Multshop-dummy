@@ -24,12 +24,14 @@ export class HeaderFirstComponent implements OnInit {
 				this.isAuthenticated = !!user; //outputs true
 				console.log(this.isAuthenticated);
 			})
+			this.isAuthenticated = this.authService.updateNav();
+
 	
-			let userToken =JSON.parse(localStorage.getItem('userData'))
+			// let userToken =JSON.parse(localStorage.getItem('userData'))
 	
-			if(userToken.data.tokenCreate.token) {
-				this.isAuthenticated= true;
-			}
+			// if(userToken.data.tokenCreate.token) {
+			// 	this.isAuthenticated= true;
+			// }
 	}
 
 	logout() {
