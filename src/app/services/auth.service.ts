@@ -88,7 +88,7 @@ export class AuthService implements OnInit {
 			variables: {
 				email: this.loginForm.email,
 				password: this.loginForm.password
-			}
+			} 
 
 		}).subscribe((result) => {
 			this.isSellerLoggedIn.next(true);

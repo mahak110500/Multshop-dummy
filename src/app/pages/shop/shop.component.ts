@@ -18,6 +18,7 @@ export class ShopComponent implements OnInit {
 
 	allProducts: any;
 	productAddedList: any[];
+	filterCategory: any[];
 	cartNumber: number = 0;
 
 	rating: any;
@@ -37,7 +38,7 @@ export class ShopComponent implements OnInit {
 		this.cart.displayProductList().valueChanges
 			.subscribe(
 				({ data }) => {
-					// console.log(data);
+					console.log(data);
 
 					this.allProducts = data.products;
 					this.allProducts = this.allProducts.edges;
@@ -53,18 +54,26 @@ export class ShopComponent implements OnInit {
 						const prodRating = item.node.rating; //rating
 
 						const variantId = item.node.variants[0].id;
+						const category = item.node.category.name;
 
 						// console.log(prodRating);
 
-						return { prodId, prodName, prodAmount, prodImg, prodRating, variantId };
+						return { prodId, prodName, prodAmount, prodImg, prodRating, variantId, category};
 
 					});
+					
 
 					this.productAddedList = iterableProducts;
 					// console.log(this.productAddedList);
 
+					//for filtering category
+					this.filterCategory = iterableProducts;
+					console.log(this.filterCategory);
+					
+
 					//for adding quantity and amount to the productsArray
 					this.productAddedList.forEach((a: any) => {
+
 						Object.assign(a, { quantity: 1, total: a.prodAmount })
 					});
 
@@ -94,16 +103,17 @@ export class ShopComponent implements OnInit {
 
 	}
 
-
-
-
-	// cartNumberFunction() {
-	// 	var cartValue = JSON.parse(localStorage.getItem('productsData'));
-	// 	this.cartNumber = cartValue.length;
-
-	// 	this.cart.cartSubject.next(this.cartNumber);
-
-	// }
+	
+	filter(category:string){
+		this.filterCategory = this.productAddedList
+		.filter((a:any) => {
+			if(a.category == category || category == ''){
+				console.log(a);
+				
+				return a;
+			}
+		})
+	}
 
 
 

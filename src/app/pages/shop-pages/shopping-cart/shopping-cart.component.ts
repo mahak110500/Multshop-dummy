@@ -21,7 +21,9 @@ export class ShoppingCartComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.cart.getProducts().subscribe(res => {
+			
 			this.products = res; //array of products getting added to cart
+			console.log(this.products);
 			
 			this.grandTotal = this.cart.getTotalPrice(); //for total cart price 
 
