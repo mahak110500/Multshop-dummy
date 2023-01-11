@@ -114,6 +114,7 @@ export class CheckoutComponent implements OnInit {
 			this.router.navigate(['/order-successful']);
 			localStorage.removeItem('productsData');
 
+			this.cart.cartSubject.next(0);
 		})
 	}
 

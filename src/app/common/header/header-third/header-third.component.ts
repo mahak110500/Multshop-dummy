@@ -64,7 +64,7 @@ export class HeaderThirdComponent implements OnInit, OnDestroy {
 			//   this.cartItem = cartCount.length;
 			//   console.log(cartCount);
 	
-			// }
+			// } 
 		}
 	}
 

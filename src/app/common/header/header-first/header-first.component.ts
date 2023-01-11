@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
 	selector: 'app-header-first',
@@ -11,12 +12,13 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderFirstComponent implements OnInit {
 
 	isLoginMode = true;
+	cartItem:number;
 
 	isAuthenticated: boolean = false;
 	private userSub: Subscription = new Subscription;
 
 
-	constructor(private activatedRoute: ActivatedRoute, private route: Router, private authService: AuthService) { }
+	constructor(private activatedRoute: ActivatedRoute, private route: Router, private authService: AuthService, private cart:CartService) { }
 
 	ngOnInit(): void {
 			//for navbar change
@@ -37,7 +39,10 @@ export class HeaderFirstComponent implements OnInit {
 	logout() {
 		this.authService.isSellerLoggedIn.next(false);
 		localStorage.removeItem('userData');
-		this.route.navigate(['/auth/login']);
+		this.route.navigate(['/auth/login']); 
+
+		// this.cart.cartSubject.next(0);
+
 	}
 
 }
