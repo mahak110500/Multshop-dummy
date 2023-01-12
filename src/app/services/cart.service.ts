@@ -32,6 +32,8 @@ export class CartService implements OnInit {
 
 	items: any = [];
 	productCount: any = 0;
+	public products: any = [];
+
 
 	cartSubject = new Subject<any>();
 	cartAmount = new Subject<any>();
@@ -43,13 +45,15 @@ export class CartService implements OnInit {
 	ngOnInit(): void {
 	}
 
+
 	displayProductList() {
 		return this.apollo.watchQuery<Query>({
 			query: gql`
-			query  {
+			query ProductFilterByName ($filter: ProductFilterInput){
 				products(
-				  first: 9
+				  first: 24
 				  channel: "default-channel"
+				  filter: $filter
 				) {
 				  edges {
 					node {
@@ -57,6 +61,8 @@ export class CartService implements OnInit {
 					  name
 					  rating
 					  category {
+						id
+						slug
 						name
 					  }
 					  thumbnail {
@@ -79,12 +85,19 @@ export class CartService implements OnInit {
 					}
 				  }
 				}
-			  }
-			  
-			`
+			}  
+			`,
+			variables: {
+				filter: { categories: "Q2F0ZWdvcnk6OQ==" }
+			}
 		})
 
 	}
+
+
+
+
+
 
 
 
@@ -121,9 +134,10 @@ export class CartService implements OnInit {
 				productTotal: product.total,
 				price: product.prodAmount,
 				productVariantId: product.variantId
-				
+
 			})
 		}
+
 
 		this.productList.next(this.cartItemList);
 		this.getTotalPrice();
@@ -156,39 +170,39 @@ export class CartService implements OnInit {
 
 	cartNumber: any = 0;
 	//for storing the length of array of products being added to cart
-	cartNumberFunction(){
+	cartNumberFunction() {
 		var cartValue = JSON.parse(localStorage.getItem('productsData'));
 		this.cartNumber = cartValue.length;
 		// console.log(this.cartNumber);
-		
+
 		this.cartSubject.next(this.cartNum);
 	}
-	
+
 	cartNum: any = 0;
-	getCartQty(product:any){
-		this.cartNum =0; 
-		for(let i = 0; i< product.length; i++){
+	getCartQty(product: any) {
+		this.cartNum = 0;
+		for (let i = 0; i < product.length; i++) {
 			this.cartNum = product[i].quantity + this.cartNum;
 		}
 		// console.log(this.cartNum);
-		
+
 		// console.log(this.cartNum); //total qty of products in the cart after doing increment
 		localStorage.setItem('productsData', JSON.stringify(product));
-		
+
 	}
-	
 
-	removeCartItem(product:any,data){
-		
+
+	removeCartItem(product: any, data) {
+
 		data.map((a: any, index: any) => {
-            if (product.productId == a.productId) {
-                data.splice(index, 1);
-            }
-        })
-        localStorage.removeItem('productsData');
-        localStorage.setItem('productsData', JSON.stringify(data));
+			if (product.productId == a.productId) {
+				data.splice(index, 1);
+			}
+		})
+		localStorage.removeItem('productsData');
+		localStorage.setItem('productsData', JSON.stringify(data));
 
-        return data;
+		return data;
 	}
 
 

@@ -1,7 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular'
-import { Query } from 'src/app/models/product-list.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CartService } from 'src/app/services/cart.service';
 
@@ -18,11 +17,15 @@ export class ShopComponent implements OnInit {
 
 	allProducts: any;
 	productAddedList: any[];
-	filterCategory: any[];
+	filterCategory: any;
 	cartNumber: number = 0;
 
 	rating: any;
 	form: FormGroup;
+
+	p: number = 1;
+	// collection: any[] = this.productAddedList; 
+	
 
 	// product: Observable<Products[]>;
 
@@ -48,7 +51,6 @@ export class ShopComponent implements OnInit {
 
 						const prodId = item.node.id;
 						const prodName = item.node.name; //name
-						const prodCurrency = item.node.pricing.priceRange.start.currency; //currency
 						const prodAmount = item.node.pricing.priceRange.start.net.amount; //amount
 						const prodImg = item.node.thumbnail.url; //image
 						const prodRating = item.node.rating; //rating
@@ -73,10 +75,9 @@ export class ShopComponent implements OnInit {
 
 					//for adding quantity and amount to the productsArray
 					this.productAddedList.forEach((a: any) => {
-
 						Object.assign(a, { quantity: 1, total: a.prodAmount })
 					});
-
+					
 				})
 
 		this.cart.getProducts().subscribe(res => {
@@ -88,8 +89,6 @@ export class ShopComponent implements OnInit {
 				this.products = data;
 			}
 		})
-
-		
 		
 	}
 
@@ -108,15 +107,10 @@ export class ShopComponent implements OnInit {
 		this.filterCategory = this.productAddedList
 		.filter((a:any) => {
 			if(a.category == category || category == ''){
-				console.log(a);
-				
 				return a;
 			}
 		})
 	}
-
-
-
 
 }
 

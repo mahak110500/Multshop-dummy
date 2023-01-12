@@ -206,7 +206,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1"  *ngFor="let item of filterCategory">
+                <div class="col-lg-4 col-md-6 col-sm-6 pb-1"  *ngFor="let item of filterCategory | paginate: { itemsPerPage:9, currentPage:p}">
                
                     <div class="product-item bg-light mb-4" >
                         <div class="product-img position-relative overflow-hidden">
@@ -244,15 +244,15 @@
                     </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12" class="pagination justify-content-center">
                     <nav>
-                      <ul class="pagination justify-content-center">
-                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <pagination-controls (pageChange)="p = $event"  ></pagination-controls>
+
+                        <!-- <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                         <li class="page-item active"><a class="page-link" href="#">1</a></li>
                         <li class="page-item"><a class="page-link" href="#">2</a></li>
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                      </ul>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
                     </nav>
                 </div>
             </div>

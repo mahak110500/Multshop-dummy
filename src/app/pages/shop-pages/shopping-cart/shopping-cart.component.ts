@@ -20,6 +20,7 @@ export class ShoppingCartComponent implements OnInit {
 
 
 	ngOnInit(): void {
+		
 		this.cart.getProducts().subscribe(res => {
 			
 			this.products = res; //array of products getting added to cart

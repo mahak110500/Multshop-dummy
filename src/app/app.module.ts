@@ -42,6 +42,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AuthGuard } from './pages/auth/auth.guard';
 import { OrderSuccessfulComponent } from './pages/shop-pages/order-successful/order-successful.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     FormsModule,
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
-    CarouselModule
+    CarouselModule,
+    NgxPaginationModule
     
   ],
   providers: [
