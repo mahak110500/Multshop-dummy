@@ -23,7 +23,9 @@ const ADD_PRODUCTS = gql`
 })
 export class CartService implements OnInit {
 	allProducts: any;
+	newProducts: any; 
 	productAddedList: any[];
+	filteredProductList: any[];
 
 	public cartItemList: any = []
 	public productList = new BehaviorSubject<any>([]);
@@ -39,6 +41,7 @@ export class CartService implements OnInit {
 
 	cartSubject = new Subject<any>();
 	productSubject = new Subject<any>();
+	FilterSubject = new Subject<any>();
 
 
 
@@ -46,10 +49,56 @@ export class CartService implements OnInit {
 
 	ngOnInit(): void {
 		this.getDisplayProducts();
+		this.getDisplayFiltered();
+	}
+
+	displayProductList(){
+		return this.apollo.watchQuery<Query>({
+			query: gql`
+			query {
+				products(
+				  first: 24
+				  channel: "default-channel"
+				) {
+				  edges {
+					node {
+					  id
+					  name
+					  rating
+					  category {
+						id
+						slug
+						name
+					  }
+					  thumbnail {
+						url
+					  }
+					  pricing {
+						priceRange {
+						  start {
+							currency
+							net {
+							  amount
+							}
+						  }
+						}
+					  }
+					  variants {
+						id
+						name
+					  }
+					}
+				  }
+				}
+			}  
+			`
+			
+		})
+
 	}
 
 
-	displayProductList() {
+	getFilteredProducts() {
 		return this.apollo.watchQuery<Query>({
 			query: gql`
 			query ProductFilterByName ($filter: ProductFilterInput){
@@ -97,12 +146,37 @@ export class CartService implements OnInit {
 
 	}
 
+	getDisplayFiltered(){
+		this.getFilteredProducts().valueChanges
+		.subscribe(
+			({data}) =>{
+				this.newProducts = data.products;
+				this.newProducts = this.newProducts.edges;
+				console.log(this.newProducts);
+
+				let newPro = this.newProducts.map(item => {
+					const category = item.node.category.name;
+
+					return{category}
+				})
+
+				this.categoryInfo = newPro;
+				console.log(this.categoryInfo);
+				
+				// this.categoryInfo = this.productAddedList.map(obj => this.category = obj.category);
+				this.FilterSubject.next(this.categoryInfo)
+
+				
+			}
+		)
+	}
+
 
 	getDisplayProducts(){
 		 this.displayProductList().valueChanges
 		.subscribe(
 			({ data }) => {
-				console.log(data);
+				// console.log(data);
 
 				this.allProducts = data.products;
 				this.allProducts = this.allProducts.edges;
@@ -125,7 +199,7 @@ export class CartService implements OnInit {
 
 				this.productAddedList = iterableProducts;
 
-				this.categoryInfo = this.productAddedList.map(obj => this.category = obj.category);
+				// this.categoryInfo = this.productAddedList.map(obj => this.category = obj.category);
 				
 
 				//for adding quantity and amount to the productsArray
@@ -134,7 +208,6 @@ export class CartService implements OnInit {
 				});
 
 				this.productSubject.next(this.productAddedList)
-
 				
 			})
 	}

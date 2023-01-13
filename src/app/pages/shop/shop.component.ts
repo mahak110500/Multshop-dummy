@@ -40,19 +40,15 @@ export class ShopComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.cart.getDisplayProducts();
+		this.cart.getDisplayFiltered();
 
 		// this.filter(this.category);
 		this.cart.productSubject.subscribe(res => {
+			
 			this.productList = res;
-			this.newProductsList = res;
-			this.categoryInfo = this.productList.map(obj => this.category = obj.category);
+			// this.newProductsList = res;
+			// this.categoryInfo = this.productList.map(obj => this.category = obj.category);
 
-
-			let data = JSON.parse(localStorage.getItem('filteredData'));
-
-			if(this.newProductsList == ''){
-				this.newProductsList = data;
-			}
 		
 		});
 
@@ -82,21 +78,64 @@ export class ShopComponent implements OnInit {
 
 	}
 
+	filter(){
+
+		this.cart.FilterSubject.subscribe(res => {
+			
+			this.newProductsList = res;
+			console.log(this.newProductsList);
+			
+			// this.categoryInfo = this.productList.map(obj => this.category = obj.category);
+
+		
+		});
 
 
-	filter(category) {
-		var response: any = []
-		 this.newProductsList = this.productList
-			.forEach((element:any) => {
-				if(element.category == category || category == ''){
-						response.push(element);
-				}
-			}); 
+	 	// var response: any = [];
+	 	// //  this.newProductsList = this.productList
 
-		this.newProductsList = response;
-		localStorage.setItem('filteredData', JSON.stringify(this.newProductsList));;
 
+		// this.cart.getFilteredProducts().valueChanges
+		// 	.subscribe(({data}) => {
+		// 		this.newProductsList = data;
+		// 		this.newProductsList = data.products;
+	 	// 		this.newProductsList = this.newProductsList.edges;
+
+		// 		this.newProductsList 
+		// 			.forEach((element:any) => {
+		// 				let categoryName = element.node.category.name;
+
+		// 				if(categoryName == category || category == ''){
+		// 					response.push(element);
+							
+		// 				}
+		// 		}); 
+				
+		// 	})
+
+		// console.log(response);
+		// this.newProductsList = response;
+		
+		
 	}
+
+
+
+
+
+	// filter(category) {
+	// 	var response: any = []
+	// 	 this.newProductsList = this.productList
+	// 		.forEach((element:any) => {
+	// 			if(element.category == category || category == ''){
+	// 					response.push(element);
+	// 			}
+	// 		}); 
+
+	// 	this.newProductsList = response;
+	// 	localStorage.setItem('filteredData', JSON.stringify(this.newProductsList));;
+
+	// }
 
 	
 
