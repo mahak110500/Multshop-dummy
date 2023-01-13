@@ -33,16 +33,19 @@ export class CartService implements OnInit {
 	items: any = [];
 	productCount: any = 0;
 	public products: any = [];
+	categoryInfo:any;
+	public category:any;
 
 
 	cartSubject = new Subject<any>();
-	cartAmount = new Subject<any>();
+	productSubject = new Subject<any>();
 
 
 
 	constructor(private http: HttpClient, private apollo: Apollo) { }
 
 	ngOnInit(): void {
+		this.getDisplayProducts();
 	}
 
 
@@ -88,16 +91,53 @@ export class CartService implements OnInit {
 			}  
 			`,
 			variables: {
-				filter: { categories: "Q2F0ZWdvcnk6OQ==" }
+				filter: { categories: this.categoryInfo }
 			}
 		})
 
 	}
 
 
+	getDisplayProducts(){
+		 this.displayProductList().valueChanges
+		.subscribe(
+			({ data }) => {
+				console.log(data);
 
+				this.allProducts = data.products;
+				this.allProducts = this.allProducts.edges;
+				
+				let iterableProducts = this.allProducts.map(item => {
+					// console.log(item);
 
+					const prodId = item.node.id;
+					const prodName = item.node.name; //name
+					const prodAmount = item.node.pricing.priceRange.start.net.amount; //amount
+					const prodImg = item.node.thumbnail.url; //image
+					const prodRating = item.node.rating; //rating
 
+					const variantId = item.node.variants[0].id;
+					const category = item.node.category.name;
+					
+					return { prodId, prodName, prodAmount, prodImg, prodRating, variantId, category};
+
+				});
+
+				this.productAddedList = iterableProducts;
+
+				this.categoryInfo = this.productAddedList.map(obj => this.category = obj.category);
+				
+
+				//for adding quantity and amount to the productsArray
+				this.productAddedList.forEach((a: any) => {
+					Object.assign(a, { quantity: 1, total: a.prodAmount })
+				});
+
+				this.productSubject.next(this.productAddedList)
+
+				
+			})
+	}
 
 
 

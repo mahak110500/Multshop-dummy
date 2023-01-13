@@ -44,7 +44,7 @@ export class HeaderThirdComponent implements OnInit, OnDestroy {
 		this.cart.cartSubject.subscribe(res => {
 			this.cartItem = res;
 		})
-		this.cartItemFunction();
+		this.cartItemFunction(); 
 
 	}
 

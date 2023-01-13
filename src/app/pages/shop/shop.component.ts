@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CartService } from 'src/app/services/cart.service';
@@ -16,16 +16,19 @@ export class ShopComponent implements OnInit {
 	public products: any = [];
 
 	allProducts: any;
-	productAddedList: any[];
-	filterCategory: any;
+	productList: any;
+	newProductsList: any;
+
 	cartNumber: number = 0;
+	public category: any;
 
 	rating: any;
 	form: FormGroup;
+	categoryInfo: any;
 
 	p: number = 1;
 	// collection: any[] = this.productAddedList; 
-	
+
 
 	// product: Observable<Products[]>;
 
@@ -33,63 +36,40 @@ export class ShopComponent implements OnInit {
 		this.form = this.fb.group({
 			rating: ['4', Validators.required],
 		})
-
 	}
 
 	ngOnInit(): void {
+		this.cart.getDisplayProducts();
 
-		this.cart.displayProductList().valueChanges
-			.subscribe(
-				({ data }) => {
-					console.log(data);
+		// this.filter(this.category);
+		this.cart.productSubject.subscribe(res => {
+			this.productList = res;
+			this.newProductsList = res;
+			this.categoryInfo = this.productList.map(obj => this.category = obj.category);
 
-					this.allProducts = data.products;
-					this.allProducts = this.allProducts.edges;
 
-					let iterableProducts = this.allProducts.map(item => {
-						// console.log(item);
+			let data = JSON.parse(localStorage.getItem('filteredData'));
 
-						const prodId = item.node.id;
-						const prodName = item.node.name; //name
-						const prodAmount = item.node.pricing.priceRange.start.net.amount; //amount
-						const prodImg = item.node.thumbnail.url; //image
-						const prodRating = item.node.rating; //rating
-
-						const variantId = item.node.variants[0].id;
-						const category = item.node.category.name;
-
-						// console.log(prodRating);
-
-						return { prodId, prodName, prodAmount, prodImg, prodRating, variantId, category};
-
-					});
-					
-
-					this.productAddedList = iterableProducts;
-					// console.log(this.productAddedList);
-
-					//for filtering category
-					this.filterCategory = iterableProducts;
-					console.log(this.filterCategory);
-					
-
-					//for adding quantity and amount to the productsArray
-					this.productAddedList.forEach((a: any) => {
-						Object.assign(a, { quantity: 1, total: a.prodAmount })
-					});
-					
-				})
-
-		this.cart.getProducts().subscribe(res => {
-			this.products = res;
-
-			let data = JSON.parse(localStorage.getItem('productsData'));  //object of products getting added to shopping cart and stored in localstorage
-			
-			if (this.products == '') {
-				this.products = data;
+			if(this.newProductsList == ''){
+				this.newProductsList = data;
 			}
-		})
 		
+		});
+
+
+
+		// this.cart.getProducts().subscribe(res => {
+		// 	this.products = res;
+
+		// 	let data = JSON.parse(localStorage.getItem('productsData'));  //object of products getting added to shopping cart and stored in localstorage
+
+		// 	if (this.products == '') {
+		// 		this.products = data;
+		// 	}
+		// })
+
+		
+
 	}
 
 	addToCart(item: any) {
@@ -102,15 +82,23 @@ export class ShopComponent implements OnInit {
 
 	}
 
-	
-	filter(category:string){
-		this.filterCategory = this.productAddedList
-		.filter((a:any) => {
-			if(a.category == category || category == ''){
-				return a;
-			}
-		})
+
+
+	filter(category) {
+		var response: any = []
+		 this.newProductsList = this.productList
+			.forEach((element:any) => {
+				if(element.category == category || category == ''){
+						response.push(element);
+				}
+			}); 
+
+		this.newProductsList = response;
+		localStorage.setItem('filteredData', JSON.stringify(this.newProductsList));;
+
 	}
+
+	
 
 }
 
