@@ -24,43 +24,38 @@
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" checked id="price-all">
-                        <!-- <label class="custom-control-label" for="price-all" (click)="filter('')">All Category</label> -->
-                        <label class="custom-control-label" for="price-all">All Category</label>
+                        <label class="custom-control-label" for="price-all" (click)="filter('')">All Category</label>
                         <span class="badge border font-weight-normal"  style="color: black;">24</span>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-1">
-                        <label class="custom-control-label" for="price-1" (click)="filter()">Apparel</label>
-                        <!-- <label class="custom-control-label" for="price-1">Apparel</label> -->
+                        <input type="checkbox" class="custom-control-input" id="price-1" value="Apparel" (change)="onFilter($event)">
+                        <label class="custom-control-label" for="price-1" >Apparel</label>
+                        <!-- <label class="custom-control-label" for="price-1" (click)="filter('Apparel')">Apparel</label> -->
                         <span class="badge border font-weight-normal"  style="color: black;">08</span>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-2">
+                        <input type="checkbox" class="custom-control-input" id="price-2" value="Footwear" (change)="onFilter($event)">
+                        <label class="custom-control-label" for="price-2">Footwear</label>
                         <!-- <label class="custom-control-label" for="price-2" (click)="filter('Footwear')">Footwear</label> -->
-                        <label class="custom-control-label" for="price-2" >Footwear</label>
                         <span class="badge border font-weight-normal"  style="color: black;">02</span>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-3">
-                        <!-- <label class="custom-control-label" for="price-3" (click)="filter('Accessories')">Accessories</label> -->
-                        <label class="custom-control-label" for="price-3" >Accessories</label>
+                        <input type="checkbox" class="custom-control-input" id="price-3" value="Accessories" (change)="onFilter($event)">
+                        <label class="custom-control-label" for="price-3">Accessories</label>
                         <span class="badge border font-weight-normal"  style="color: black;">03</span>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-4">
-                        <!-- <label class="custom-control-label" for="price-4" (click)="filter('Paints')">Paints</label> -->
+                        <input type="checkbox" class="custom-control-input" id="price-4" value="Paints" (change)="onFilter($event)">
                         <label class="custom-control-label" for="price-4">Paints</label>
                         <span class="badge border font-weight-normal"  style="color: black;">04</span>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-5">
-                        <!-- <label class="custom-control-label" for="price-5" (click)="filter('Juices')">Juices</label> -->
-                        <label class="custom-control-label" for="price-5" >Juices</label>
+                        <input type="checkbox" class="custom-control-input" id="price-5" value="Juices" (change)="onFilter($event)">
+                        <label class="custom-control-label" for="price-5">Juices</label>
                         <span class="badge border font-weight-normal"  style="color: black;">04</span>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="price-6">
-                        <!-- <label class="custom-control-label" for="price-6" (click)="filter('Alcohol')">Alcohol</label> -->
+                        <input type="checkbox" class="custom-control-input" id="price-6" value="Alcohol" (change)="onFilter($event)">
                         <label class="custom-control-label" for="price-6" >Alcohol</label>
                         <span class="badge border font-weight-normal"  style="color: black;">01</span>
                     </div>
@@ -69,46 +64,36 @@
             </div>
             <!-- Category End -->
             
-            <!-- Color Start -->
-            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by color</span></h5>
+            <!-- Price Start -->
+            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by Price</span></h5>
             <div class="bg-light p-4 mb-30">
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                         <input type="checkbox" class="custom-control-input" checked id="color-all">
-                        <label class="custom-control-label" for="price-all">All Color</label>
-                        <span class="badge border font-weight-normal"  style="color: black;">1000</span>
+                        <label class="custom-control-label" for="price-all">All Prices</label>
+                        <span class="badge border font-weight-normal"  style="color: black;">24</span>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-1">
-                        <label class="custom-control-label" for="color-1">Black</label>
-                        <span class="badge border font-weight-normal"  style="color: black;">150</span>
+                        <input type="checkbox" class="custom-control-input" id="color-1" value="15" (change)="onFilterPrice($event)">
+                        <label class="custom-control-label" for="color-1">$15-$10</label>
+                        <span class="badge border font-weight-normal"  style="color: black;">02</span>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-2">
-                        <label class="custom-control-label" for="color-2">White</label>
-                        <span class="badge border font-weight-normal"  style="color: black;">295</span>
+                        <input type="checkbox" class="custom-control-input" id="color-2" value="9" (change)="onFilterPrice($event)">
+                        <label class="custom-control-label" for="color-2">$10-$05</label>
+                        <span class="badge border font-weight-normal"  style="color: black;">03</span>
                     </div>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-3">
-                        <label class="custom-control-label" for="color-3">Red</label>
-                        <span class="badge border font-weight-normal"  style="color: black;">246</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                        <input type="checkbox" class="custom-control-input" id="color-4">
-                        <label class="custom-control-label" for="color-4">Blue</label>
-                        <span class="badge border font-weight-normal"  style="color: black;">145</span>
-                    </div>
-                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-control-input" id="color-5">
-                        <label class="custom-control-label" for="color-5">Green</label>
-                        <span class="badge border font-weight-normal"  style="color: black;">168</span>
+                        <input type="checkbox" class="custom-control-input" id="color-3" value="5" (change)="onFilterPrice($event)">
+                        <label class="custom-control-label" for="color-3">$05-$01</label>
+                        <span class="badge border font-weight-normal"  style="color: black;">19</span>
                     </div>
                 </form>
             </div>
-            <!-- Color End -->
+            <!-- Price End -->
 
             <!-- Size Start -->
-            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by size</span></h5>
+            <!-- <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by size</span></h5>
             <div class="bg-light p-4 mb-30">
                 <form>
                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
@@ -142,7 +127,7 @@
                         <span class="badge border font-weight-normal"  style="color: black;">168</span>
                     </div>
                 </form>
-            </div>
+            </div> -->
             <!-- Size End -->
         </div>
         <!-- Shop Sidebar End -->
@@ -253,6 +238,7 @@
                 </div>
             </div>
         </div>
+      
         <!-- Shop Product End -->
     </div>
 </div>

@@ -49,7 +49,6 @@ export class CartService implements OnInit {
 
 	ngOnInit(): void {
 		this.getDisplayProducts();
-		this.getDisplayFiltered();
 	}
 
 	displayProductList(){
@@ -92,7 +91,6 @@ export class CartService implements OnInit {
 				}
 			}  
 			`
-			
 		})
 
 	}
@@ -147,28 +145,30 @@ export class CartService implements OnInit {
 	}
 
 	getDisplayFiltered(){
-		this.getFilteredProducts().valueChanges
-		.subscribe(
-			({data}) =>{
-				this.newProducts = data.products;
-				this.newProducts = this.newProducts.edges;
-				console.log(this.newProducts);
-
-				let newPro = this.newProducts.map(item => {
-					const category = item.node.category.name;
-
-					return{category}
-				})
-
-				this.categoryInfo = newPro;
-				console.log(this.categoryInfo);
+		// this.getFilteredProducts().valueChanges
+		// .subscribe(
+		// 	({data}) =>{
+		// 		console.log(data);
 				
-				// this.categoryInfo = this.productAddedList.map(obj => this.category = obj.category);
-				this.FilterSubject.next(this.categoryInfo)
+		// 		this.newProducts = data.products;
+		// 		this.newProducts = this.newProducts.edges;
+		// 		console.log(this.newProducts);
+
+		// 		let newPro = this.newProducts.map(item => {
+		// 			const category = item.node.category.name;
+
+		// 			return{category}
+		// 		})
+
+		// 		this.categoryInfo = newPro;
+		// 		console.log(this.categoryInfo);
+				
+		// 		// this.categoryInfo = this.productAddedList.map(obj => this.category = obj.category);
+		// 		this.FilterSubject.next(this.categoryInfo)
 
 				
-			}
-		)
+		// 	}
+		// )
 	}
 
 
