@@ -38,7 +38,8 @@ export class ShopComponent implements OnInit {
 	newArray: any = [];
 
 
-
+	value1 = [15,14,13,12,11,10];
+	value2 = [10,9,8,7,6,5];
 
 	// product: Observable<Products[]>;
 
@@ -53,8 +54,6 @@ export class ShopComponent implements OnInit {
 
 		// this.filter(this.category);
 		this.cart.productSubject.subscribe(res => {
-
-			console.log(res);
 
 			this.productList = res;
 			this.arrays = res;
@@ -181,29 +180,41 @@ export class ShopComponent implements OnInit {
 	}
 
 	//Price Filter
-	value1 = [15,14,13,12,11,10];
-	value2 = [10,9,8,7,6,5];
+	
 	onFilterPrice(event: any) {
 		var response: any = [];
 
 		if (event.target.checked) {
-			console.log(this.arrays);
-			
 
-			// this.tempPriceArray = this.arrays.filter((e:any) => {
-			// 	if(e.prodAmount > 10 && e.prodAmount <= 15){
-			// 		// console.log(e.prodAmount);
-			// 		this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
-			// 		console.log(this.tempPriceArray);
-			// 	} else if (e.prodAmount > 5 && e.prodAmount <= 10) {
-			// 		this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
+			this.tempPriceArray = this.arrays.filter((e:any) => {
+
+					
+					if(e.prodAmount > 10 && e.prodAmount <= 15){
 						
-			// 	} else if (e.prodAmount > 0 && e.prodAmount <= 5) {
-			// 		this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
+						if(e.prodAmount == event.target.value){
+							response.push(e);
+							console.log(response);
+
+						}
+						// response.push(e);
+						// this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
 						
-			// 	}
+						
+					} else if (e.prodAmount > 5 && e.prodAmount <= 10) {
+						// response.push(e);
+						// console.log(response);
+						
+							
+					} else if (e.prodAmount > 0 && e.prodAmount <= 5) {
+						// response.push(e);
+						// console.log(response)
+					}
 				
-			// });
+			});
+
+			this.tempPriceArray =response;
+			
+			
 
 			
 			
@@ -223,6 +234,8 @@ export class ShopComponent implements OnInit {
 			this.productList = [];
 
 			this.newPriceArray.push(this.tempPriceArray);
+			// console.log(this.newPriceArray);
+			
 
 			for (let i = 0; i < this.newPriceArray.length; i++) {
 				var firstPriceArray = this.newPriceArray[i];
@@ -230,10 +243,7 @@ export class ShopComponent implements OnInit {
 					var priceObj = firstPriceArray[i];
 					this.productList.push(priceObj);
 				}
-				
 			}
-			
-
 
 		} else {
 			this.tempPriceArray = this.productList.filter((e: any) => e.prodAmount != event.target.value);
