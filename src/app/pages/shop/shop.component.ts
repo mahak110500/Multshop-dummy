@@ -17,7 +17,7 @@ export class ShopComponent implements OnInit {
 
 	allProducts: any;
 	productList: any;
-	arrays:any;
+	arrays: any;
 	newProductsList: any;
 
 	cartNumber: number = 0;
@@ -30,12 +30,12 @@ export class ShopComponent implements OnInit {
 	p: number = 1;
 
 	//Price Filter
-	tempPriceArray:any = [];
-	newPriceArray:any = [];
+	tempPriceArray: any = [];
+	newPriceArray: any = [];
 
 	//category filter
-	tempArray:any = [];
-	newArray:any = [];
+	tempArray: any = [];
+	newArray: any = [];
 
 
 
@@ -55,10 +55,10 @@ export class ShopComponent implements OnInit {
 		this.cart.productSubject.subscribe(res => {
 
 			console.log(res);
-			
+
 			this.productList = res;
 			this.arrays = res;
-			
+
 			// this.newProductsList = res;
 			// this.categoryInfo = this.productList.map(obj => this.category = obj.category);
 
@@ -119,7 +119,7 @@ export class ShopComponent implements OnInit {
 
 		// 			const variantId = item.node.variants[0].id;
 		// 			const category = item.node.category.name;
-					
+
 		// 			return { prodId, prodName, prodAmount, prodImg, prodRating, variantId, category};
 
 		// 		});
@@ -132,7 +132,7 @@ export class ShopComponent implements OnInit {
 		// 					response.push(element);
 		// 				}
 		// 			});
-					
+
 		// 	})
 
 		// this.newProductsList = response;
@@ -144,32 +144,32 @@ export class ShopComponent implements OnInit {
 
 
 	//category filter
-	onFilter(event:any){
+	onFilter(event: any) {
 
-		if(event.target.checked){
-			this.tempArray = this.arrays.filter((e:any) => e.category == event.target.value);
+		if (event.target.checked) {
+			this.tempArray = this.arrays.filter((e: any) => e.category == event.target.value);
 
 			this.productList = [];
 
 			this.newArray.push(this.tempArray);
 
-			for(let i=0; i<this.newArray.length; i++){
+			for (let i = 0; i < this.newArray.length; i++) {
 				var firstArray = this.newArray[i];
-				for(let i=0; i<firstArray.length; i++){
+				for (let i = 0; i < firstArray.length; i++) {
 					var obj = firstArray[i];
 					this.productList.push(obj);
 				}
 			}
-			
-		} else{
-			this.tempArray = this.productList.filter((e:any) => e.category != event.target.value);
+
+		} else {
+			this.tempArray = this.productList.filter((e: any) => e.category != event.target.value);
 			this.newArray = [];
 			this.productList = [];
 
 			this.newArray.push(this.tempArray);
-			for(let i=0; i<this.newArray.length; i++){
+			for (let i = 0; i < this.newArray.length; i++) {
 				var firstArray = this.newArray[i];
-				for(let i=0; i<firstArray.length; i++){
+				for (let i = 0; i < firstArray.length; i++) {
 					var obj = firstArray[i];
 					this.productList.push(obj);
 				}
@@ -177,42 +177,74 @@ export class ShopComponent implements OnInit {
 			console.log(this.newArray);
 
 		}
-		
+
 	}
 
-
-
 	//Price Filter
+	value1 = [15,14,13,12,11,10];
+	value2 = [10,9,8,7,6,5];
+	onFilterPrice(event: any) {
+		var response: any = [];
 
-	onFilterPrice(event:any){
-		if(event.target.checked){
-			this.tempPriceArray = this.arrays.filter((e:any) => e.prodAmount == event.target.value);
+		if (event.target.checked) {
+			console.log(this.arrays);
 			
-			this.productList= [];
+
+			// this.tempPriceArray = this.arrays.filter((e:any) => {
+			// 	if(e.prodAmount > 10 && e.prodAmount <= 15){
+			// 		// console.log(e.prodAmount);
+			// 		this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
+			// 		console.log(this.tempPriceArray);
+			// 	} else if (e.prodAmount > 5 && e.prodAmount <= 10) {
+			// 		this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
+						
+			// 	} else if (e.prodAmount > 0 && e.prodAmount <= 5) {
+			// 		this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
+						
+			// 	}
+				
+			// });
+
+			
+			
+			// if (this.arrays.prodAmount > 10 && this.arrays.prodAmount <= 15) {
+			// 	this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
+			// 	console.log('aaa');
+			// } else if (this.arrays.prodAmount > 5 && this.arrays.prodAmount <= 10) {
+			// 	this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
+			// 	console.log('bbb');
+
+			// } else if (this.arrays.prodAmount > 0 && this.arrays.prodAmount <= 5) {
+			// 	this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
+			// 	console.log('ccc');
+
+			// }
+
+			this.productList = [];
 
 			this.newPriceArray.push(this.tempPriceArray);
 
-			for(let i=0; i<this.newPriceArray.length; i++){
+			for (let i = 0; i < this.newPriceArray.length; i++) {
 				var firstPriceArray = this.newPriceArray[i];
-				for(let i=0; i<firstPriceArray.length; i++){
+				for (let i = 0; i < firstPriceArray.length; i++) {
 					var priceObj = firstPriceArray[i];
 					this.productList.push(priceObj);
 				}
-				console.log(this.productList);
+				
 			}
-			console.log(this.productList);
-
 			
-		} else{
-			this.tempPriceArray = this.productList.filter((e:any) => e.prodAmount != event.target.value);
+
+
+		} else {
+			this.tempPriceArray = this.productList.filter((e: any) => e.prodAmount != event.target.value);
 
 			this.newPriceArray = [];
 			this.productList = [];
 
 			this.newPriceArray.push(this.tempPriceArray);
-			for(let i=0; i<this.newPriceArray.length; i++){
+			for (let i = 0; i < this.newPriceArray.length; i++) {
 				var firstPriceArray = this.newPriceArray[i];
-				for(let i=0; i<firstPriceArray.length; i++){
+				for (let i = 0; i < firstPriceArray.length; i++) {
 					var priceObj = firstPriceArray[i];
 					this.productList.push(priceObj);
 				}
