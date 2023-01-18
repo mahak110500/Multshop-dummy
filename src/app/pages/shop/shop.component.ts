@@ -1,5 +1,5 @@
 
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { Component, DoCheck, EventEmitter, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CartService } from 'src/app/services/cart.service';
@@ -38,8 +38,7 @@ export class ShopComponent implements OnInit {
 	newArray: any = [];
 
 
-	value1 = [15,14,13,12,11,10];
-	value2 = [10,9,8,7,6,5];
+	// onFilterChange = new EventEmitter<any>();
 
 	// product: Observable<Products[]>;
 
@@ -60,7 +59,6 @@ export class ShopComponent implements OnInit {
 
 			// this.newProductsList = res;
 			// this.categoryInfo = this.productList.map(obj => this.category = obj.category);
-
 
 		});
 
@@ -141,6 +139,113 @@ export class ShopComponent implements OnInit {
 
 	}
 
+	onInputChange($event, type){
+		// this.onFilterChange.emit({
+
+		// })
+	}
+
+	
+	onFilterChange(data,type){
+		console.log(data.type);
+		
+		if(data.type === 'categories'){
+			if (data.target.checked) {
+				this.tempArray = this.arrays.filter((e: any) => e.category == data.target.value);
+	
+				this.productList = [];
+	
+				this.newArray.push(this.tempArray);
+	
+				for (let i = 0; i < this.newArray.length; i++) {
+					var firstArray = this.newArray[i];
+					for (let i = 0; i < firstArray.length; i++) {
+						var obj = firstArray[i];
+						this.productList.push(obj);
+					}
+				}
+	
+			} else {
+				this.tempArray = this.productList.filter((e: any) => e.category != data.target.value);
+				this.newArray = [];
+				this.productList = [];
+	
+				this.newArray.push(this.tempArray);
+				for (let i = 0; i < this.newArray.length; i++) {
+					var firstArray = this.newArray[i];
+					for (let i = 0; i < firstArray.length; i++) {
+						var obj = firstArray[i];
+						this.productList.push(obj);
+					}
+				}
+				console.log(this.newArray);
+	
+			}
+		} else if(data.type === 'price'){
+			if (data.target.checked) {
+
+				const priceFilter = data.target.value;
+				if(priceFilter === 'all'){
+					this.tempPriceArray = this.arrays;
+				}else if(priceFilter === 'value1'){
+					this.tempPriceArray = this.arrays.filter((e:any) => e.prodAmount > 10 && e.prodAmount <= 15);
+					console.log(this.tempPriceArray);
+					
+				} else if(priceFilter === 'value2'){
+					this.tempPriceArray = this.arrays.filter((e:any) => e.prodAmount > 5 && e.prodAmount <= 10);
+					console.log(this.tempPriceArray);
+					
+				} else if(priceFilter === 'value3'){ 
+					this.tempPriceArray = this.arrays.filter((e:any) => e.prodAmount > 0 && e.prodAmount <= 5);
+					console.log(this.tempPriceArray);
+				}
+	
+				this.productList = [];
+	
+				this.newPriceArray.push(this.tempPriceArray);
+				console.log(this.newPriceArray);
+				
+	
+				for (let i = 0; i < this.newPriceArray.length; i++) {
+					var firstPriceArray = this.newPriceArray[i];
+					for (let i = 0; i < firstPriceArray.length; i++) {
+						var priceObj = firstPriceArray[i];
+						this.productList.push(priceObj);
+					}
+				}
+	
+			} else {
+				// this.tempPriceArray = this.productList.filter((e: any) => e.prodAmount != event.target.value);
+	
+				const priceFilter = data.target.value;
+				if(priceFilter != 'value1'){
+					this.tempPriceArray = this.productList.filter((e:any) => e.prodAmount > 10 && e.prodAmount <= 15);
+					
+				} else if(priceFilter != 'value2'){
+					this.tempPriceArray = this.productList.filter((e:any) => e.prodAmount > 5 && e.prodAmount <= 10);
+					
+				} else if(priceFilter != 'value3'){ 
+					this.tempPriceArray = this.productList.filter((e:any) => e.prodAmount > 0 && e.prodAmount <= 5);
+				}
+	
+				this.newPriceArray = [];
+				this.productList = [];
+	
+				this.newPriceArray.push(this.tempPriceArray);
+				for (let i = 0; i < this.newPriceArray.length; i++) {
+					var firstPriceArray = this.newPriceArray[i];
+					for (let i = 0; i < firstPriceArray.length; i++) {
+						var priceObj = firstPriceArray[i];
+						this.productList.push(priceObj);
+					}
+				}
+				console.log(this.productList);
+	
+	
+			}
+		}
+	}
+
 
 	//category filter
 	onFilter(event: any) {
@@ -180,61 +285,30 @@ export class ShopComponent implements OnInit {
 	}
 
 	//Price Filter
-	
 	onFilterPrice(event: any) {
-		var response: any = [];
 
 		if (event.target.checked) {
 
-			this.tempPriceArray = this.arrays.filter((e:any) => {
-
-					
-					if(e.prodAmount > 10 && e.prodAmount <= 15){
-						
-						if(e.prodAmount == event.target.value){
-							response.push(e);
-							console.log(response);
-
-						}
-						// response.push(e);
-						// this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
-						
-						
-					} else if (e.prodAmount > 5 && e.prodAmount <= 10) {
-						// response.push(e);
-						// console.log(response);
-						
-							
-					} else if (e.prodAmount > 0 && e.prodAmount <= 5) {
-						// response.push(e);
-						// console.log(response)
-					}
+			const priceFilter = event.target.value;
+			if(priceFilter === 'all'){
+				this.tempPriceArray = this.arrays;
+			}else if(priceFilter === 'value1'){
+				this.tempPriceArray = this.arrays.filter((e:any) => e.prodAmount > 10 && e.prodAmount <= 15);
+				console.log(this.tempPriceArray);
 				
-			});
-
-			this.tempPriceArray =response;
-			
-			
-
-			
-			
-			// if (this.arrays.prodAmount > 10 && this.arrays.prodAmount <= 15) {
-			// 	this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
-			// 	console.log('aaa');
-			// } else if (this.arrays.prodAmount > 5 && this.arrays.prodAmount <= 10) {
-			// 	this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
-			// 	console.log('bbb');
-
-			// } else if (this.arrays.prodAmount > 0 && this.arrays.prodAmount <= 5) {
-			// 	this.tempPriceArray = this.arrays.filter((e: any) => e.prodAmount == event.target.value);
-			// 	console.log('ccc');
-
-			// }
+			} else if(priceFilter === 'value2'){
+				this.tempPriceArray = this.arrays.filter((e:any) => e.prodAmount > 5 && e.prodAmount <= 10);
+				console.log(this.tempPriceArray);
+				
+			} else if(priceFilter === 'value3'){ 
+				this.tempPriceArray = this.arrays.filter((e:any) => e.prodAmount > 0 && e.prodAmount <= 5);
+				console.log(this.tempPriceArray);
+			}
 
 			this.productList = [];
 
 			this.newPriceArray.push(this.tempPriceArray);
-			// console.log(this.newPriceArray);
+			console.log(this.newPriceArray);
 			
 
 			for (let i = 0; i < this.newPriceArray.length; i++) {
@@ -246,7 +320,18 @@ export class ShopComponent implements OnInit {
 			}
 
 		} else {
-			this.tempPriceArray = this.productList.filter((e: any) => e.prodAmount != event.target.value);
+			// this.tempPriceArray = this.productList.filter((e: any) => e.prodAmount != event.target.value);
+
+			const priceFilter = event.target.value;
+			if(priceFilter != 'value1'){
+				this.tempPriceArray = this.productList.filter((e:any) => e.prodAmount > 10 && e.prodAmount <= 15);
+				
+			} else if(priceFilter != 'value2'){
+				this.tempPriceArray = this.productList.filter((e:any) => e.prodAmount > 5 && e.prodAmount <= 10);
+				
+			} else if(priceFilter != 'value3'){ 
+				this.tempPriceArray = this.productList.filter((e:any) => e.prodAmount > 0 && e.prodAmount <= 5);
+			}
 
 			this.newPriceArray = [];
 			this.productList = [];
@@ -265,9 +350,6 @@ export class ShopComponent implements OnInit {
 		}
 
 	}
-
-
-
 
 
 	// filter(category) {
